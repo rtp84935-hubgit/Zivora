@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>View Products</title>
+
+<style>
+
+:root{
+    --bg-1: #0d0b1e;
+    --bg-2: #1a1233;
+    --bg-3: #241639;
+    --card-bg: rgba(36, 26, 62, 0.55);
+    --card-border: rgba(148, 132, 255, 0.18);
+    --card-border-hover: rgba(148, 132, 255, 0.4);
+    --field-bg: rgba(13, 11, 30, 0.55);
+    --text-main: #f2f0fb;
+    --text-muted: #a9a4c4;
+    --accent-1: #7c6cf5;
+    --accent-2: #a78bfa;
+    --green: #34d399;
+    --amber: #fbbf24;
+    --red: #f87171;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:50px 30px 90px;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(124, 108, 245, 0.18), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(236, 72, 153, 0.12), transparent 40%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    color:var(--text-main);
+}
+
+/* breadcrumb */
+.crumb{
+    max-width:1100px;
+    margin:0 auto 30px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--text-muted);
+}
+.crumb a{
+    color:var(--text-muted);
+    text-decoration:none;
+}
+.crumb a:hover{ color:var(--accent-2); }
+.crumb span{ color:var(--card-border-hover); }
+.crumb b{ color:var(--text-main); font-weight:600; }
+
+.home-btn{
+    position:fixed;
+    top:24px;
+    left:24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.14);
+    background:rgba(36, 26, 62, 0.6);
+    backdrop-filter:blur(10px);
+    color:var(--text-main);
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none;
+    z-index:20;
+    transition:background 0.15s ease, border-color 0.15s ease;
+}
+
+.home-btn:hover{
+    background:rgba(124,108,240,0.18);
+    border-color:rgba(124,108,240,0.45);
+}
+
+.home-btn svg{
+    width:15px;
+    height:15px;
+    stroke:var(--text-main);
+    flex-shrink:0;
+}
+
+/* stack of tickets, one per product */
+.ticket-stack{
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+}
+
+/* main split layout, styled like a boarding-pass / ticket stub */
+.ticket{
+    display:grid;
+    grid-template-columns:1fr 1.1fr;
+    background:var(--card-bg);
+    backdrop-filter:blur(14px);
+    border:1px solid var(--card-border);
+    border-radius:24px;
+    overflow:visible;
+    box-shadow:0 24px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+    position:relative;
+}
+
+/* media half */
+.ticket-media{
+    position:relative;
+    padding:26px;
+    border-right:1px dashed var(--card-border-hover);
+    display:flex;
+    flex-direction:column;
+}
+
+.ticket-media .frame{
+    position:relative;
+    flex:1;
+    min-height:340px;
+    border-radius:18px;
+    overflow:hidden;
+    background:var(--field-bg);
+    border:1px solid var(--card-border);
+}
+
+.ticket-media .frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.ticket-media .frame.no-image{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-muted);
+    font-size:13px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+}
+
+/* stamped offer sticker, rotated over the image corner */
+.offer-stamp{
+    position:absolute;
+    top:20px;
+    left:6px;
+    z-index:3;
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ffe08a, var(--amber));
+    color:#241400;
+    font-weight:800;
+    transform:rotate(-14deg);
+    box-shadow:0 10px 22px rgba(0,0,0,.4);
+    border:2px dashed rgba(36,20,0,.35);
+}
+.offer-stamp .off-num{ font-size:20px; line-height:1; }
+.offer-stamp .off-label{ font-size:9px; letter-spacing:.08em; margin-top:2px; }
+
+/* SKU strip under the image, mono, like a ticket barcode line */
+.sku-strip{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:16px;
+    padding:10px 14px;
+    background:var(--field-bg);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    font-family:'Courier New',monospace;
+    font-size:12px;
+    color:var(--text-muted);
+    letter-spacing:.04em;
+}
+.sku-strip b{ color:var(--accent-2); }
+
+/* punch holes on the seam between media and details, cut into bg color */
+.ticket::before,
+.ticket::after{
+    content:'';
+    position:absolute;
+    width:26px; height:26px;
+    background:var(--bg-1);
+    border-radius:50%;
+    left:calc(38% - 13px);
+    z-index:4;
+}
+.ticket::before{ top:-13px; }
+.ticket::after{ bottom:-13px; }
+
+/* details half */
+.ticket-details{
+    padding:34px 40px 30px;
+    display:flex;
+    flex-direction:column;
+}
+
+.eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    margin-bottom:12px;
+}
+.eyebrow::before{
+    content:'';
+    width:18px; height:1px;
+    background:var(--accent-2);
+}
+
+.product-title{
+    font-size:30px;
+    font-weight:700;
+    color:var(--text-main);
+    line-height:1.2;
+    margin-bottom:16px;
+}
+
+.price-row{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:20px;
+}
+.price-was{
+    color:var(--text-muted);
+    font-size:16px;
+    text-decoration:line-through;
+}
+.price-now{
+    color:var(--green);
+    font-size:32px;
+    font-weight:800;
+}
+.price-now.no-offer{ color:var(--text-main); }
+
+.description{
+    color:var(--text-muted);
+    line-height:1.7;
+    font-size:14.5px;
+    margin-bottom:26px;
+    padding-bottom:26px;
+    border-bottom:1px dashed var(--card-border);
+}
+
+/* stat grid: quantity / stock / status, laid out like boarding-pass fields */
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:30px;
+}
+.stat-cell{
+    padding:14px 12px;
+    background:var(--field-bg);
+    border:1px solid var(--card-border);
+    border-radius:12px;
+    text-align:center;
+}
+.stat-cell .stat-label{
+    display:block;
+    font-size:10.5px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    margin-bottom:6px;
+}
+.stat-cell .stat-value{
+    font-size:19px;
+    font-weight:700;
+    color:var(--text-main);
+}
+.stat-cell .stat-value.status-in{ color:var(--green); }
+.stat-cell .stat-value.status-low{ color:var(--amber); }
+.stat-cell .stat-value.status-out{ color:var(--red); }
+
+.button-group{
+    margin-top:auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    flex:1;
+    min-width:150px;
+    text-decoration:none;
+    color:#ffffff;
+    text-align:center;
+    padding:13px;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn:hover{ transform:translateY(-2px); }
+
+.offer-btn{
+    background:linear-gradient(135deg,#7c6cf5,#a78bfa);
+    box-shadow:0 8px 20px rgba(124,108,245,.35);
+}
+.edit-btn{
+    background:rgba(255,255,255,0.06);
+    border:1px solid var(--card-border);
+    color:var(--text-main);
+}
+.edit-btn:hover{
+    border-color:var(--card-border-hover);
+    background:rgba(255,255,255,0.1);
+}
+.delete-btn{
+    background:transparent;
+    border:1px solid rgba(248,113,113,.35);
+    color:var(--red);
+}
+.delete-btn:hover{
+    background:rgba(248,113,113,.12);
+    border-color:rgba(248,113,113,.6);
+}
+
+/* empty state, matches the punched-ticket motif */
+.empty-state{
+    max-width:1100px;
+    margin:0 auto;
+    text-align:center;
+    padding:90px 20px;
+    border:1px dashed var(--card-border-hover);
+    border-radius:24px;
+    color:var(--text-muted);
+}
+.empty-state h3{
+    color:var(--text-main);
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+@media (max-width:820px){
+    .ticket{ grid-template-columns:1fr; }
+    .ticket-media{ border-right:none; border-bottom:1px dashed var(--card-border-hover); }
+    .ticket::before,.ticket::after{ left:50%; }
+    .home-btn{ top:16px; left:16px; padding:8px 13px; font-size:12px; }
+}
+
+a:focus-visible, .btn:focus-visible{
+    outline:2px solid var(--accent-2);
+    outline-offset:3px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="/myapp/seller_home/" class="home-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home
+</a>
+
+<div class="crumb">
+    <a href="/myapp/seller_home/">Seller Console</a>
+    <span>/</span>
+    <b>My Products</b>
+</div>
+
+<div class="ticket-stack">
+
+{% for i in data %}
+
+    <div class="ticket">
+
+        <div class="ticket-media">
+
+            <div class="frame{% if not i.ProductImage %} no-image{% endif %}">
+                {% if i.ProductImage %}
+                    <img src="{{ i.ProductImage.url }}" alt="{{ i.ProductName }}">
+                {% else %}
+                    No Image
+                {% endif %}
+
+               
+                    {% if i.status == "1" %}
+                        <div class="offer-stamp">
+                            <span class="off-num">{{ i.off }}%</span>
+                            <span class="off-label">OFF</span>
+                        </div>
+                    {% endif %}
+               
+            </div>
+
+            <div class="sku-strip">
+                <span>PRODUCT ID</span>
+                <b>#{{ i.id }}</b>
+            </div>
+
+        </div>
+
+        <div class="ticket-details">
+
+            <span class="eyebrow">Product Details</span>
+            <h1 class="product-title">{{ i.ProductName }}</h1>
+
+            <div class="price-row">
+                
+                    {% if i.status == "1" %}
+                        <span class="price-was">₹ {{ i.ProductPrice }}</span>
+                        <span class="price-now">₹ {{ i.offer }}</span>
+                    
+            
+
+                {% else %}
+                    <span class="price-now no-offer">₹ {{ i.ProductPrice }}</span>
+                {% endif %}
+            </div>
+
+            <p class="description">{{ i.ProductDescription }}</p>
+
+            <div class="stat-grid">
+                <div class="stat-cell">
+                    <span class="stat-label">Quantity</span>
+                    <span class="stat-value">{{ i.ProductQuantity }}</span>
+                </div>
+
+                <div class="stat-cell">
+                    <span class="stat-label">Stock</span>
+                    <span class="stat-value">{{ i.ProductStock }}</span>
+                </div>
+
+                <div class="stat-cell">
+                    <span class="stat-label">Status</span>
+                    {% if i.ProductStock == 0 %}
+                        <span class="stat-value status-out">Out</span>
+                    {% elif i.ProductStock < 10 %}
+                        <span class="stat-value status-low">Low</span>
+                    {% else %}
+                        <span class="stat-value status-in">In Stock</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="button-group">
+                
+            
+                {% if i.status == "1" %}
+                        <a class="btn offer-btn" href="/myapp/change_offers/{{ i.id }}">
+                            🎁 Change Discount %
+                        </a>
+                        {% else %}
+                        <a class="btn offer-btn" href="/myapp/add_offers/{{ i.id }}">
+                            🎁 Add Offer
+                        </a>
+    
+                {% endif %}
+            
+    
+                <a class="btn edit-btn" href="/myapp/edit_product/{{ i.id }}">
+                    ✏ Edit Product
+                </a>
+
+                <a class="btn delete-btn" href="/myapp/delete_product/{{ i.id }}">
+                    🗑 Delete Product
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+{% empty %}
+
+    <div class="empty-state">
+        <h3>No products yet</h3>
+        <p>Products you add will show up here as detail tickets, ready to price, edit, and manage.</p>
+    </div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

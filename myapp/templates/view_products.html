@@ -1,0 +1,562 @@
+{% extends 'user_home.html' %}
+{% block body %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =====================================================
+   CUSTOMER CATALOG — "Shelf & Swing Tag" theme
+   Signature element: each product's price hangs off the
+   image corner like a real swing tag on a string, the way
+   a boutique would tag stock on a shelf. Cards sit on an
+   even grid so every row lines up regardless of content
+   length — feedback text, offers, no-offer cards all align.
+===================================================== */
+
+:root{
+    --bg-1: #0d0b1e;
+    --bg-2: #171029;
+    --bg-3: #1f1638;
+    --card-bg: rgba(24, 18, 42, 0.72);
+    --card-border: rgba(148, 132, 255, 0.14);
+    --card-border-hover: rgba(148, 132, 255, 0.4);
+    --field-bg: rgba(11, 9, 24, 0.6);
+    --text-main: #f2f0fb;
+    --text-muted-2: #928db1;
+    --accent-1: #7c6cf5;
+    --accent-2: #b6a6ff;
+    --gold: #ffcf5c;
+    --tag-paper: #f4efe3;
+    --tag-ink: #211838;
+
+    --font-display: 'Space Grotesk', 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+.catalog-page *{
+    box-sizing:border-box;
+    font-family:var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce){
+    .catalog-page *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+}
+
+/* ---------- top bar ---------- */
+.catalog-topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--bg-2);
+    padding:18px 34px;
+    border-bottom:1px solid var(--card-border);
+}
+.catalog-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-size:21px;
+    font-weight:700;
+    color:var(--text-main);
+    letter-spacing:0.01em;
+}
+.catalog-brand i{ color:var(--accent-1); }
+
+.catalog-home-link{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    text-decoration:none;
+    color:var(--text-muted-2);
+    font-weight:600;
+    font-size:13.5px;
+    padding:8px 18px;
+    border:1px solid var(--card-border);
+    border-radius:20px;
+    transition:0.25s;
+}
+.catalog-home-link:hover{
+    color:var(--text-main);
+    border-color:var(--card-border-hover);
+}
+
+/* ---------- header ---------- */
+.catalog-header{
+    background:var(--bg-1);
+    text-align:center;
+    padding:44px 20px 30px;
+}
+.catalog-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    margin-bottom:12px;
+}
+.catalog-eyebrow::before,
+.catalog-eyebrow::after{
+    content:'';
+    width:22px; height:1px;
+    background:var(--accent-2);
+}
+.catalog-header h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(26px,4vw,36px);
+    color:var(--text-main);
+    letter-spacing:-0.01em;
+}
+.catalog-header p{
+    color:var(--text-muted-2);
+    font-size:14px;
+    margin-top:8px;
+}
+
+/* ---------- grid: even rows, every card the same height ---------- */
+.catalog-wrap{
+    min-height:100vh;
+    padding:10px 34px 80px;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(124,108,245,0.14), transparent 42%),
+        radial-gradient(circle at 88% 92%, rgba(255,207,92,0.07), transparent 40%),
+        linear-gradient(165deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+}
+
+.catalog-grid{
+    max-width:1400px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(270px, 1fr));
+    grid-auto-rows:1fr;
+    gap:30px 26px;
+    align-items:stretch;
+}
+
+/* ---------- card ---------- */
+.product-card{
+    position:relative;
+    background:var(--card-bg);
+    backdrop-filter:blur(12px);
+    border:1px solid var(--card-border);
+    border-radius:18px;
+    padding:20px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    box-shadow:0 14px 30px rgba(0,0,0,.35);
+    transition:transform .3s cubic-bezier(.16,1,.3,1), border-color .3s ease, box-shadow .3s ease;
+    animation:cardIn .5s cubic-bezier(.16,1,.3,1) both;
+}
+.product-card:nth-child(4n+1){ animation-delay:.02s; }
+.product-card:nth-child(4n+2){ animation-delay:.08s; }
+.product-card:nth-child(4n+3){ animation-delay:.14s; }
+.product-card:nth-child(4n+4){ animation-delay:.2s; }
+
+@keyframes cardIn{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+}
+
+.product-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--card-border-hover);
+    box-shadow:0 24px 46px rgba(0,0,0,.45);
+}
+
+/* ---------- media + swing tag ---------- */
+.product-media{
+    position:relative;
+    border-radius:13px;
+    overflow:hidden;
+    border:1px solid var(--card-border);
+    background:var(--field-bg);
+    margin-bottom:34px; /* room for the tag to hang below the corner */
+}
+.product-media img{
+    width:100%;
+    height:178px;
+    object-fit:cover;
+    display:block;
+}
+.product-media.no-image{
+    height:178px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-muted-2);
+    font-size:12px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+}
+
+/* the string the tag hangs from */
+.swing-string{
+    position:absolute;
+    top:-2px;
+    right:26px;
+    width:1px;
+    height:24px;
+    background:rgba(255,255,255,0.35);
+    z-index:2;
+}
+
+/* the tag itself: rotated paper-toned card, punched hole,
+   sitting half on the image, half hanging below it */
+.swing-tag{
+    position:absolute;
+    top:14px;
+    right:10px;
+    z-index:3;
+    background:var(--tag-paper);
+    color:var(--tag-ink);
+    padding:9px 12px 8px 16px;
+    border-radius:4px 10px 10px 4px;
+    transform:rotate(7deg);
+    box-shadow:0 8px 16px rgba(0,0,0,.4);
+    font-family:var(--font-display);
+    line-height:1.15;
+    min-width:64px;
+    text-align:center;
+}
+.swing-tag::before{
+    content:'';
+    position:absolute;
+    left:5px; top:50%;
+    width:6px; height:6px;
+    transform:translateY(-50%);
+    background:var(--bg-2);
+    border-radius:50%;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);
+}
+.swing-tag .tag-was{
+    display:block;
+    font-size:11px;
+    font-weight:500;
+    text-decoration:line-through;
+    color:#7a7460;
+}
+.swing-tag .tag-now{
+    display:block;
+    font-size:16px;
+    font-weight:700;
+}
+.swing-tag .tag-off{
+    display:block;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.04em;
+    color:#b3491f;
+    margin-top:2px;
+}
+
+/* ---------- body copy ---------- */
+.product-title{
+    font-family:var(--font-display);
+    color:var(--text-main);
+    margin:0 0 6px 0;
+    font-size:18.5px;
+    font-weight:600;
+}
+
+.product-desc{
+    color:var(--text-muted-2);
+    font-size:13px;
+    line-height:1.55;
+    margin:0 0 14px 0;
+}
+
+.chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:12px;
+}
+.chip{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    color:var(--text-main);
+    background:var(--field-bg);
+    border:1px solid var(--card-border);
+    padding:5px 12px;
+    border-radius:999px;
+    font-size:11.5px;
+}
+.chip.muted{ color:var(--text-muted-2); }
+
+.seller-line{
+    color:var(--text-muted-2);
+    font-size:12.5px;
+    margin:0 0 16px 0;
+}
+.seller-line b{ color:var(--text-main); font-weight:600; }
+
+/* ---------- rating / feedback ---------- */
+.add-feedback-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    text-decoration:none;
+    color:var(--gold);
+    background:transparent;
+    border:1px dashed rgba(255,207,92,.45);
+    padding:10px 14px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:14px;
+    transition:0.25s;
+}
+.add-feedback-link:hover{
+    background:rgba(255,207,92,0.08);
+    border-style:solid;
+}
+
+.rating-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    text-decoration:none;
+    background:var(--field-bg);
+    border:1px solid var(--card-border);
+    padding:11px 14px;
+    border-radius:12px;
+    margin-bottom:10px;
+}
+.rating-box .rating-value{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:var(--gold);
+    font-weight:700;
+    font-size:14px;
+    white-space:nowrap;
+}
+.rating-box .rating-review-count{
+    color:var(--text-muted-2);
+    font-weight:500;
+    font-size:11px;
+    text-align:right;
+}
+
+.your-feedback{
+    color:var(--text-muted-2);
+    font-size:12.5px;
+    line-height:1.5;
+    margin:0 0 14px 0;
+    padding:10px 12px;
+    background:var(--field-bg);
+    border-left:2px solid var(--accent-1);
+    border-radius:0 8px 8px 0;
+}
+.your-feedback b{ color:var(--text-main); }
+
+/* ---------- actions, pinned to the bottom of every card ---------- */
+.action-row{
+    display:flex;
+    gap:10px;
+    margin-top:auto;
+    padding-top:4px;
+}
+
+.btn-action{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    text-decoration:none;
+    padding:11px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    transition:0.25s;
+}
+
+.buy-link{
+    color:#ffffff;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    box-shadow:0 8px 18px rgba(124,108,245,.32);
+}
+.buy-link:hover{ transform:translateY(-2px); filter:brightness(1.06); }
+
+.cart-link{
+    color:var(--accent-2);
+    background:transparent;
+    border:1px solid var(--card-border-hover);
+}
+.cart-link:hover{
+    background:rgba(124,108,245,0.1);
+    transform:translateY(-2px);
+}
+
+/* ---------- empty state ---------- */
+.empty-state{
+    grid-column:1/-1;
+    text-align:center;
+    color:var(--text-muted-2);
+    padding:100px 20px;
+    border:1px dashed var(--card-border-hover);
+    border-radius:20px;
+}
+.empty-state i{
+    font-size:46px;
+    color:var(--card-border-hover);
+}
+.empty-state h3{
+    font-family:var(--font-display);
+    color:var(--text-main);
+    font-size:19px;
+    margin:14px 0 6px;
+}
+
+@media (max-width:480px){
+    .catalog-topbar{ padding:16px 20px; }
+    .catalog-wrap{ padding:10px 18px 60px; }
+    .catalog-header{ padding:36px 16px 24px; }
+}
+
+a:focus-visible, .btn-action:focus-visible{
+    outline:2px solid var(--accent-2);
+    outline-offset:3px;
+}
+
+</style>
+
+<div class="catalog-page">
+
+<div class="catalog-topbar">
+
+    <div class="catalog-brand">
+        <i class="fa fa-store"></i>
+        My Products
+    </div>
+
+    <a href="/myapp/home/" class="catalog-home-link">
+        <i class="fa fa-home"></i>
+        Home
+    </a>
+
+</div>
+
+<div class="catalog-header">
+    <div class="catalog-eyebrow">On the shelf today</div>
+    <h1>Available Products</h1>
+    <p>Fresh listings from our sellers, tagged and ready to go</p>
+</div>
+
+<div class="catalog-wrap">
+
+<div class="catalog-grid">
+
+{% if products %}
+
+    {% for i in products %}
+
+    <div class="product-card">
+
+        <div class="product-media{% if not i.ProductImage %} no-image{% endif %}">
+            {% if i.ProductImage %}
+                <img src="{{ i.ProductImage.url }}">
+            {% else %}
+                No Image
+            {% endif %}
+        </div>
+
+        <div class="swing-string"></div>
+        <div class="swing-tag">
+            {% if i.status == "1" %}
+                <span class="tag-was">₹{{ i.ProductPrice }}</span>
+                <span class="tag-now">₹{{ i.offer }}</span>
+                <span class="tag-off">{{ i.off }}% OFF</span>
+            {% else %}
+                <span class="tag-now">₹{{ i.ProductPrice }}</span>
+            {% endif %}
+        </div>
+
+        <h2 class="product-title">
+            {{ i.ProductName }}
+        </h2>
+
+        <p class="product-desc">
+            {{ i.ProductDescription }}
+        </p>
+
+        <div class="chip-row">
+            <span class="chip">Qty : {{ i.ProductQuantity }}</span>
+            <span class="chip muted">Stock : {{ i.ProductStock }}</span>
+        </div>
+
+        <input type="hidden" name="pid" value="{{ i.id }}"/>
+
+        <p class="seller-line">
+            Seller : <b>{{ i.SELLER.name }}</b>
+        </p>
+
+        {% if i.fs == "0" %}
+
+        <a href="/myapp/add_feedback_product/{{ i.id }}" class="add-feedback-link">
+            <i class="fa fa-star"></i>
+            Add Feedback
+        </a>
+
+        {% else %}
+
+        <a href="" class="rating-box">
+            <span class="rating-value"><i class="fa fa-star"></i> {{ i.avg_rating|floatformat:1 }}/5.0</span>
+            <span class="rating-review-count">{{ i.count }} reviews</span>
+        </a>
+
+        <p class="your-feedback">
+            <b>Your feedback:</b><br>
+            {{ i.fs.feedback }}
+        </p>
+
+        {% endif %}
+
+        <div class="action-row">
+
+            <a href="/myapp/purchase/{{ i.id }}" class="btn-action buy-link">
+                <i class="fa fa-credit-card"></i>
+                Buy
+            </a>
+
+            <a href="/myapp/addtocartget/{{ i.id }}" class="btn-action cart-link">
+                <i class="fa fa-cart-plus"></i>
+                Cart
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="empty-state">
+        <i class="fa fa-box-open"></i>
+        <h3>No Products Available</h3>
+        <p>Check back soon — new listings will show up here.</p>
+    </div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'user_home.html' %}
+{% block body %}
+
+<div style="display:flex; justify-content:space-between; align-items:center; background:#1a1a2e; padding:18px 30px; border-bottom:1px solid #2a2a40;">
+
+    <div style="display:flex; align-items:center; gap:10px; font-size:22px; font-weight:700; color:#e0e0ff;">
+        <i class="fa fa-cart-shopping" style="color:#6c63ff;"></i>
+        My Cart
+    </div>
+
+   
+</div>
+
+<h1 style="text-align:center; color:#e0e0ff; background:#0f0f1a; margin:0; padding:30px 0 10px 0; font-weight:600; letter-spacing:1px;">
+    My Shopping Cart
+</h1>
+
+<div style="background:#0f0f1a; min-height:100vh; padding:20px 30px 60px 30px; display:flex; flex-direction:column; align-items:center; gap:20px; font-family:'Segoe UI', Arial, Helvetica, sans-serif;">
+
+{% if cart %}
+
+    {% for i in cart %}
+
+    <div style="display:flex; width:100%; max-width:800px; background:#1a1a2e; border:1px solid #2a2a40; border-radius:14px; padding:20px; box-shadow:0px 8px 20px rgba(0,0,0,0.4); gap:20px;">
+
+        <div style="flex-shrink:0;">
+            {% if i.PRODUCT.ProductImage %}
+            <img src="{{ i.PRODUCT.ProductImage.url }}" style="width:120px; height:120px; object-fit:cover; border-radius:10px; border:1px solid #2a2a40;">
+            {% endif %}
+        </div>
+
+        <div style="flex:1; text-align:left;">
+
+            <h2 style="color:#e0e0ff; margin:0 0 8px 0; font-size:19px;">
+                {{ i.PRODUCT.ProductName }}
+            </h2>
+
+            <p style="color:#9a9ab8; font-size:14px; margin:0 0 10px 0;">
+                {{ i.PRODUCT.ProductDescription }}
+            </p>
+
+            <p style="color:#6c63ff; font-size:18px; font-weight:700; margin:0 0 8px 0;">
+                ₹ 
+                {%for j in off %}
+                {%if i.PRODUCT.id == j.PRODUCT.id%}
+                {{j.offer}}
+                {%endif%}
+                {%endfor%}
+                x {{ i.quantity}} = {{ i.price}}
+            </p>
+
+            <span style="display:inline-block; color:#e0e0ff; background:#13131f; border:1px solid #2a2a40; padding:4px 12px; border-radius:15px; font-size:13px; margin-bottom:8px;">
+                Quantity : {{ i.quantity }}
+            </span>
+
+            <p style="color:#c0c0d8; font-size:13px; margin:8px 0;">
+                <b>Added on :</b> {{ i.date }}
+            </p>
+
+            <p style="color:#7a7a9a; font-size:13px; margin:0;">
+                Seller : {{ i.PRODUCT.SELLER.name }}
+            </p>
+
+        </div>
+
+        <div style="display:flex; flex-direction:column; justify-content:center; gap:12px; flex-shrink:0;">
+
+            <a href="/myapp/remove_cart/{{ i.id }}" style="display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; color:#ff6b6b; background:transparent; border:1px solid #ff6b6b; padding:9px 18px; border-radius:20px; font-size:13px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='rgba(255,107,107,0.1)'" onmouseout="this.style.background='transparent'">
+                <i class="fa fa-trash"></i>
+                Remove
+            </a>
+
+            <a href="/myapp/buyproduct/{{ i.id }}/{{ i.PRODUCT.id }}/{{ i.price }}/{{ i.quantity }}" style="display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; color:#ffffff; background:#6c63ff; padding:9px 18px; border-radius:20px; font-size:13px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='#5a52e0'" onmouseout="this.style.background='#6c63ff'">
+                <i class="fa fa-credit-card"></i>
+                Buy
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+            
+           
+            <a href="/myapp/total_buy/" style="display:flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; color:#ffffff; background:#6c63ff; padding:9px 18px; border-radius:20px; font-size:13px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='#5a52e0'" onmouseout="this.style.background='#6c63ff'">
+                <i class="fa fa-credit-card"></i>
+                Buy All
+            </a>
+          
+           
+
+{% else %}
+
+    <div style="text-align:center; color:#7a7a9a; padding:80px 20px;">
+        <i class="fa fa-cart-shopping" style="font-size:50px; color:#2a2a40;"></i>
+        <h2 style="color:#9a9ab8; margin:20px 0 8px 0;">Your cart is empty</h2>
+        <p style="color:#7a7a9a;">Add products to see them here</p>
+    </div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

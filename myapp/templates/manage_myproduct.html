@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Products</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+.container{
+    width:90%;
+    max-width:850px;
+    text-align:center;
+}
+
+h1{
+    color:white;
+    margin-bottom:40px;
+    font-size:40px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:white;
+    padding:40px 30px;
+    border-radius:20px;
+    text-decoration:none;
+    color:#333;
+    box-shadow:0 12px 25px rgba(0,0,0,.25);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 35px rgba(0,0,0,.3);
+    background:#f8f9ff;
+}
+
+.card i{
+    font-size:60px;
+    color:#667eea;
+    margin-bottom:20px;
+}
+
+.card h2{
+    color:#764ba2;
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#666;
+    font-size:16px;
+    line-height:1.5;
+}
+
+.back-btn{
+    display:inline-block;
+    margin-top:40px;
+    background:white;
+    color:#764ba2;
+    padding:12px 30px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#eeeeee;
+    color:#764ba2;
+}
+
+@media(max-width:700px){
+
+    h1{
+        font-size:32px;
+    }
+
+    .card{
+        padding:35px 25px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My Products</h1>
+
+    <div class="cards">
+
+        <a href="/myapp/add_myproducts/" class="card">
+
+            <i class="fas fa-plus-circle"></i>
+
+            <h2>Add My Product</h2>
+
+            <p>
+                Add a new product that you want to sell.
+            </p>
+
+        </a>
+
+        <a href="/myapp/view_myproducts/" class="card">
+
+            <i class="fas fa-box-open"></i>
+
+            <h2>View My Product Details</h2>
+
+            <p>
+                View, edit, and manage all the products you have added.
+            </p>
+
+        </a>
+
+         <a href="/myapp/view_request/" class="card">
+
+            <i class="fas fa-box-open"></i>
+
+            <h2>My sales request</h2>
+
+            <p>
+                 manage all the request you have recieved
+            </p>
+
+        </a>
+
+    </div>
+
+    <a href="/myapp/home/" class="back-btn">
+        ← Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

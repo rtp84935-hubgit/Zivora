@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add To Cart</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.25), transparent 45%),
+                radial-gradient(circle at 85% 20%, rgba(236, 72, 153, 0.18), transparent 40%),
+                linear-gradient(160deg, #0b0f24 0%, #17163a 45%, #241a3f 100%);
+            color: #e5e7eb;
+        }
+
+        .cart-box {
+            position: relative;
+            width: 420px;
+            padding: 44px 40px;
+            border-radius: 24px;
+            text-align: center;
+            background: rgba(30, 27, 60, 0.55);
+            border: 1px solid rgba(139, 129, 255, 0.25);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
+            overflow: hidden;
+        }
+
+        .cart-box::before {
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%);
+        }
+
+        .icon {
+            position: relative;
+            width: 84px;
+            height: 84px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+        }
+
+        h1 {
+            color: #f4f3ff;
+            font-size: 26px;
+            letter-spacing: .3px;
+            margin: 22px 0 6px;
+        }
+
+        .subtitle {
+            color: #a5a3c9;
+            font-size: 14px;
+            margin: 0 0 28px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            color: #b6b3e0;
+        }
+
+        input[type=number] {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(139, 129, 255, 0.35);
+            outline: none;
+            font-size: 16px;
+            background: rgba(15, 13, 35, 0.6);
+            color: #f4f3ff;
+            transition: .2s;
+        }
+
+        input[type=number]::placeholder {
+            color: #6f6c95;
+        }
+
+        input[type=number]:focus {
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 26px;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #7c6cf0, #a855f7);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: .3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: .25s;
+            box-shadow: 0 10px 25px rgba(124, 108, 240, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(124, 108, 240, 0.55);
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 22px;
+            text-decoration: none;
+            color: #a5a3e0;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .back:hover {
+            color: #d6d3ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cart-box">
+
+        <div class="icon">
+            <i class="fa fa-cart-plus"></i>
+        </div>
+
+        <h1>Add To Cart</h1>
+        <p class="subtitle">Choose how many you'd like to add</p>
+
+        <form action="/myapp/AddtoCart_post/" method="post">
+
+            {% csrf_token %}
+            <input type="hidden" value="{{off}}" name="off"/>
+
+            <label for="quantity">Enter Quantity</label>
+            <input type="number" id="quantity" name="quantity" min="1" placeholder="e.g. 1" required>
+
+            <input type="hidden" value="{{data.id}}" name="pid">
+
+            <button type="submit">
+                <i class="fa fa-cart-plus"></i>
+                Add to Cart
+            </button>
+
+        </form>
+
+        <a class="back" href="/myapp/view_user_products/">
+            <i class="fa fa-arrow-left"></i>
+            Continue Shopping
+        </a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sellers - Zivora Admin</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'user/css/admin.css' %}">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>Zivora</h2>
+
+            <span>ADMIN PANEL</span>
+
+        </div>
+
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                <i class="fa-solid fa-users"></i>
+                Users
+            </a>
+
+            <a href="{% url 'admin_sellers' %}" class="active">
+                <i class="fa-solid fa-store"></i>
+                Sellers
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'admin_logout' %}" class="logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Sellers</h1>
+
+                <p>Manage Zivora seller accounts</p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <i class="fa-solid fa-circle-user"></i>
+
+                <span>Administrator</span>
+
+            </div>
+
+        </header>
+
+
+        <!-- SELLERS -->
+
+        <section class="table-section">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>Seller Accounts</h2>
+
+                    <p>{{ sellers|length }} registered sellers</p>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+
+                    <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Seller</th>
+
+                        <th>Email</th>
+
+                        <th>Phone</th>
+
+                        <th>Place</th>
+
+                        <th>Status</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for seller in sellers %}
+
+                    <tr>
+
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <td>
+
+                            <div class="seller-cell">
+
+                                <div class="store-avatar">
+
+                                    <i class="fa-solid fa-store"></i>
+
+                                </div>
+
+                                <strong>
+                                    {{ seller.name }}
+                                </strong>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            {{ seller.email }}
+                        </td>
+
+
+                        <td>
+                            {{ seller.phone }}
+                        </td>
+
+
+                        <td>
+                            {{ seller.place }}
+                        </td>
+
+
+                        <td>
+
+                            {% if seller.LOGIN.is_active %}
+
+                                <span class="status verified-status">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status banned-status">
+                                    Banned
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="table-actions">
+
+
+                                <a href="{% url 'admin_seller_view' seller.id %}"
+                                   class="view-btn">
+
+                                    <i class="fa-solid fa-eye"></i>
+
+                                    View
+
+                                </a>
+
+
+                                {% if seller.LOGIN.is_active %}
+
+                                    <a href="{% url 'admin_ban_seller' seller.id %}"
+                                       class="danger-btn">
+
+                                        <i class="fa-solid fa-ban"></i>
+
+                                        Ban
+
+                                    </a>
+
+                                {% else %}
+
+                                    <a href="{% url 'admin_unban_seller' seller.id %}"
+                                       class="success-btn">
+
+                                        <i class="fa-solid fa-unlock"></i>
+
+                                        Unban
+
+                                    </a>
+
+                                {% endif %}
+
+
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7"
+                            class="empty">
+
+                            <i class="fa-solid fa-store"></i>
+
+                            <p>No sellers found.</p>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Profile</title>
+
+<style>
+    :root {
+        --bg-1: #0d0b1e;
+        --bg-2: #1a1233;
+        --bg-3: #241639;
+        --accent-1: #7c6cf5;
+        --accent-2: #a78bfa;
+        --text-main: #f2f0fb;
+        --text-muted: #a9a4c4;
+        --card-border: rgba(148, 132, 255, 0.18);
+        --card-bg: rgba(36, 26, 62, 0.55);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 90px 20px 40px;
+        font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+        background:
+            radial-gradient(circle at 15% 10%, rgba(124, 108, 245, 0.18), transparent 45%),
+            radial-gradient(circle at 85% 90%, rgba(236, 72, 153, 0.12), transparent 40%),
+            linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+        color: var(--text-main);
+    }
+
+    .home-btn {
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(36, 26, 62, 0.6);
+        backdrop-filter: blur(10px);
+        color: var(--text-main);
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        z-index: 20;
+        transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .home-btn:hover { background: rgba(124,108,240,0.18); border-color: rgba(124,108,240,0.45); }
+    .home-btn svg { width: 15px; height: 15px; stroke: var(--text-main); flex-shrink: 0; }
+
+    .profile-card {
+        width: 420px;
+        max-width: 100%;
+        background: var(--card-bg);
+        backdrop-filter: blur(14px);
+        border: 1px solid var(--card-border);
+        border-radius: 22px;
+        padding: 36px 34px 32px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    /* ---------- Avatar upload ---------- */
+    .avatar-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+    .avatar-ring {
+        position: relative;
+        width: 92px;
+        height: 92px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        cursor: pointer;
+        background: rgba(124, 108, 245, 0.14);
+        border: 1px solid rgba(148, 132, 255, 0.35);
+        transition: border-color .2s;
+    }
+    .avatar-ring:hover { border-color: var(--accent-2); }
+    .avatar-ring:focus-within { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(167,139,250,.25); }
+    .avatar-ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .avatar-ring svg.user { width: 38px; height: 38px; stroke: var(--accent-2); }
+    .avatar-ring .overlay {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(13, 11, 30, 0.6);
+        opacity: 0; transition: opacity .2s;
+    }
+    .avatar-ring:hover .overlay, .avatar-ring:focus-within .overlay { opacity: 1; }
+    .overlay svg { width: 22px; height: 22px; stroke: #fff; }
+    .avatar-ring input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; padding: 0; }
+    .avatar-hint { margin-top: 10px; font-size: 12.5px; color: var(--text-muted); }
+
+    h1 {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        margin: 0 0 4px;
+    }
+    .subtitle { text-align: center; font-size: 13px; color: var(--text-muted); margin: 0 0 26px; }
+
+    .profile-item { text-align: left; margin: 0 0 18px; }
+
+    label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+
+    .profile-item input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid rgba(148, 132, 255, 0.16);
+        background: rgba(13, 11, 30, 0.55);
+        border-radius: 10px;
+        font-size: 14.5px;
+        font-family: inherit;
+        color: var(--text-main);
+        transition: border-color .15s, box-shadow .15s;
+    }
+    .profile-item input:hover { border-color: rgba(148, 132, 255, 0.35); }
+    .profile-item input:focus {
+        outline: none;
+        border-color: var(--accent-2);
+        box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+    }
+
+    .actions { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 26px; }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 13px 20px;
+        border-radius: 12px;
+        border: 0;
+        cursor: pointer;
+        font-family: inherit;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14.5px;
+        color: #ffffff;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        box-shadow: 0 8px 20px rgba(124, 108, 245, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(124, 108, 245, 0.45); }
+    .btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+    .btn-secondary {
+        background: transparent;
+        color: var(--text-main);
+        border: 1px solid var(--card-border);
+        box-shadow: none;
+    }
+    .btn-secondary:hover { background: rgba(124,108,245,.12); box-shadow: none; }
+
+    .link-row { display: flex; justify-content: space-between; width: 100%; margin-top: 4px; }
+    .text-link { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+    .text-link:hover { color: var(--accent-2); }
+
+    @media (max-width: 480px) {
+        .home-btn { top: 16px; left: 16px; padding: 8px 13px; font-size: 12px; }
+        .profile-card { padding: 30px 22px 26px; }
+    }
+</style>
+</head>
+
+<body>
+
+<a href="/myapp/home/" class="home-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home
+</a>
+
+<form action="/myapp/seller_edit_profile_post/" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="hidden" name="id" value="{{data.id}}"/>
+<div class="profile-card">
+<!-- 
+    <div class="avatar-wrap">
+        <label class="avatar-ring" title="Change photo">
+            {% if data.image %}
+                <img id="avatarPreview" src="{{ data.image.url }}" alt="Profile photo">
+            {% else %}
+                <svg class="user" id="avatarIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <img id="avatarPreview" alt="Profile photo" style="display:none">
+            {% endif %}
+            <span class="overlay">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </span>
+            <input type="file" name="image" id="imageInput" accept="image/*" aria-label="Upload profile photo">
+        </label>
+        <span class="avatar-hint">Click the photo to change it</span>
+    </div> -->
+
+    <h1>Edit Profile</h1>
+    <p class="subtitle">Update your account details</p>
+
+    <div class="profile-item">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ data.name }}" required autocomplete="name">
+    </div>
+
+    <div class="profile-item">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ data.email }}" required autocomplete="email">
+    </div>
+
+    <div class="profile-item">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" value="{{ data.phone }}" required autocomplete="tel">
+    </div>
+
+    <div class="profile-item">
+        <label for="place">Place</label>
+        <input type="text" id="place" name="place" value="{{ data.place }}" required>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn">Save changes</button>
+        <a class="btn btn-secondary" href="/myapp/view_seller_profile/">Cancel</a>
+
+        <div class="link-row">
+            <a class="text-link" href="/myapp/home/">&larr; Back to home</a>
+            <a class="text-link" href="/myapp/change_password/">Change password</a>
+        </div>
+    </div>
+
+</div>
+
+</form>
+
+<script>
+    // Live preview of the chosen photo
+    (function () {
+        var input = document.getElementById('imageInput');
+        var img = document.getElementById('avatarPreview');
+        var icon = document.getElementById('avatarIcon');
+        input.addEventListener('change', function () {
+            var f = input.files && input.files[0];
+            if (!f) return;
+            img.src = URL.createObjectURL(f);
+            img.style.display = 'block';
+            if (icon) icon.style.display = 'none';
+        });
+    })();
+</script>
+
+</body>
+</html>

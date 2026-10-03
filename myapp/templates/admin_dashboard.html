@@ -1,0 +1,161 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Zivora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <link rel="stylesheet" href="{% static 'user/css/admin.css' %}">
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Zivora</h2>
+            <span>ADMIN PANEL</span>
+        </div>
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}" class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                <i class="fa-solid fa-users"></i>
+                Users
+            </a>
+
+            <a href="{% url 'admin_sellers' %}">
+                <i class="fa-solid fa-store"></i>
+                Sellers
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'admin_logout' %}" class="logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome to Zivora Admin Panel</p>
+            </div>
+
+            <div class="admin-profile">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Administrator</span>
+            </div>
+
+        </header>
+
+
+        <!-- STAT CARDS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div>
+                    <p>Total Users</p>
+                    <h2>{{ user_count }}</h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+
+                <div>
+                    <p>Total Sellers</p>
+                    <h2>{{ seller_count }}</h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="dashboard-section">
+
+            <div class="section-header">
+                <div>
+                    <h2>Quick Actions</h2>
+                    <p>Manage your Zivora platform</p>
+                </div>
+            </div>
+
+
+            <div class="quick-actions">
+
+                <a href="{% url 'admin_users' %}" class="action-card">
+
+                    <div class="action-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                    <div>
+                        <h3>Manage Users</h3>
+                        <p>View, inspect and manage customer accounts.</p>
+                    </div>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+
+                <a href="{% url 'admin_sellers' %}" class="action-card">
+
+                    <div class="action-icon">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+
+                    <div>
+                        <h3>Manage Sellers</h3>
+                        <p>Verify, reject and manage seller accounts.</p>
+                    </div>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

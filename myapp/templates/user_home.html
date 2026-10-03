@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Zivora - Free Nonprofit Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/static/user/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="/static/user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/static/user/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/static/user/css/style.css" rel="stylesheet">
+
+    <!-- ============================================================
+         "ORBITAL MARKET" THEME
+         A no-image, motion-led commerce theme. All visuals are drawn
+         with CSS 3D transforms, SVG, and a single lightweight WebGL
+         canvas (Three.js) for the hero product. Markup structure,
+         Django block tags, and existing hrefs are left untouched.
+    ============================================================= -->
+    <style>
+
+        /* =====================================================
+           1. DESIGN TOKENS
+        ===================================================== */
+        :root{
+            /* Color */
+            --ink:        #0B0E14;   /* page background, near-black with a blue cast */
+            --ink-2:      #11151F;   /* secondary surface */
+            --ink-3:      #161B27;   /* tertiary surface / cards */
+            --line:       rgba(255,255,255,0.08);
+            --line-2:     rgba(255,255,255,0.14);
+
+            --paper:      #F3EFE6;   /* warm off-white for high-contrast text */
+            --paper-dim:  #B9B6AE;
+
+            --citrus:     #D8FF4F;   /* signature accent: acid citrus */
+            --citrus-dim: #9FBF3C;
+            --coral:      #FF6B57;   /* secondary accent: warm coral */
+            --teal:       #43D9C3;   /* tertiary accent: cool teal */
+
+            --muted:      #8B90A0;
+            --text:       #E9E8E3;
+
+            /* Type */
+            --font-display: 'Space Grotesk', 'Inter', sans-serif;
+            --font-body:    'Inter', sans-serif;
+
+            /* Layout */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
+            --max-w: 1320px;
+
+            /* Motion */
+            --ease-out: cubic-bezier(.16,1,.3,1);
+            --ease-soft: cubic-bezier(.4,0,.2,1);
+        }
+
+        *{ box-sizing:border-box; }
+
+        @media (prefers-reduced-motion: reduce){
+            *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+        }
+
+        html{ scroll-behavior:smooth; }
+
+        html, body{
+            background:var(--ink) !important;
+            color:var(--text) !important;
+            font-family:var(--font-body) !important;
+            overflow-x:hidden;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        h1,h2,h3,h4,h5,h6{
+            font-family:var(--font-display) !important;
+            color:var(--paper) !important;
+            letter-spacing:-0.01em;
+        }
+
+        a{ text-decoration:none; }
+        p{ color:var(--muted); line-height:1.7; }
+
+        ::selection{ background:var(--citrus); color:#0B0E14; }
+
+        /* Custom scrollbar to match the dark surface */
+        ::-webkit-scrollbar{ width:10px; }
+        ::-webkit-scrollbar-track{ background:var(--ink); }
+        ::-webkit-scrollbar-thumb{ background:var(--ink-3); border-radius:10px; border:2px solid var(--ink); }
+        ::-webkit-scrollbar-thumb:hover{ background:var(--citrus-dim); }
+
+        /* =====================================================
+           2. EYEBROW / LABEL SYSTEM
+        ===================================================== */
+        .om-eyebrow{
+            display:inline-flex;
+            align-items:center;
+            gap:10px;
+            font-family:var(--font-display);
+            font-size:12px;
+            font-weight:600;
+            letter-spacing:0.22em;
+            text-transform:uppercase;
+            color:var(--citrus);
+            margin-bottom:18px;
+        }
+
+        .om-eyebrow::before{
+            content:'';
+            width:26px;
+            height:1px;
+            background:var(--citrus);
+            display:inline-block;
+        }
+
+        .om-heading{
+            font-size:clamp(28px, 4vw, 46px);
+            font-weight:600;
+            line-height:1.12;
+            color:var(--paper);
+            margin-bottom:0;
+        }
+
+        .om-heading em{
+            font-style:normal;
+            color:var(--citrus);
+        }
+
+        .om-sub{
+            color:var(--muted);
+            font-size:16px;
+            max-width:560px;
+        }
+
+        /* =====================================================
+           3. AMBIENT BACKGROUND
+        ===================================================== */
+        .om-bg{
+            position:fixed;
+            inset:0;
+            z-index:-2;
+            overflow:hidden;
+            pointer-events:none;
+            background:var(--ink);
+        }
+
+        .om-bg-field{
+            position:absolute;
+            inset:-15%;
+            background:
+                radial-gradient(circle at 12% 8%, rgba(216,255,79,0.07), transparent 38%),
+                radial-gradient(circle at 88% 18%, rgba(67,217,195,0.06), transparent 40%),
+                radial-gradient(circle at 60% 92%, rgba(255,107,87,0.05), transparent 42%);
+            filter:blur(60px);
+            animation:omDrift 32s ease-in-out infinite alternate;
+        }
+
+        @keyframes omDrift{
+            0%{ transform:translate(0,0) scale(1); }
+            100%{ transform:translate(-2%,2%) scale(1.04); }
+        }
+
+        .om-bg-grid{
+            position:absolute;
+            inset:0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size:54px 54px;
+            mask-image:radial-gradient(ellipse at 50% 0%, black, transparent 72%);
+        }
+
+        .om-bg-noise{
+            position:absolute;
+            inset:0;
+            opacity:0.035;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* =====================================================
+           4. TOP BAR + NAVBAR
+        ===================================================== */
+        .top-bar{
+            background:var(--ink-2) !important;
+            border-bottom:1px solid var(--line);
+        }
+
+        .top-bar small{ color:var(--muted); font-family:var(--font-body); }
+        .top-bar a{ transition:color .25s var(--ease-soft); }
+        .top-bar a:hover{ color:var(--citrus) !important; }
+
+        nav.navbar{
+            background:rgba(11,14,20,0.7) !important;
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
+            border-bottom:1px solid var(--line);
+            transition:background .4s var(--ease-soft), box-shadow .4s var(--ease-soft);
+        }
+
+        nav.navbar.om-scrolled{
+            background:rgba(11,14,20,0.94) !important;
+            box-shadow:0 12px 40px rgba(0,0,0,0.45);
+        }
+
+        .navbar-brand h1{
+            font-family:var(--font-display) !important;
+            font-weight:700 !important;
+            letter-spacing:-0.01em;
+        }
+
+        .navbar-brand h1 .text-primary{
+            color:var(--citrus) !important;
+        }
+
+        .navbar-brand h1 .text-white{
+            color:var(--paper) !important;
+        }
+
+        .navbar-nav .nav-link{
+            color:var(--muted) !important;
+            font-weight:500;
+            font-size:14.5px;
+            position:relative;
+            margin:0 6px;
+            transition:color .25s var(--ease-soft);
+        }
+
+        .navbar-nav .nav-link::after{
+            content:'';
+            position:absolute;
+            left:0;
+            bottom:0;
+            width:0;
+            height:2px;
+            background:var(--citrus);
+            transition:width .3s var(--ease-out);
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active{
+            color:var(--paper) !important;
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after{
+            width:100%;
+        }
+
+        .dropdown-menu{
+            background:var(--ink-3) !important;
+            border:1px solid var(--line-2) !important;
+            border-radius:14px !important;
+            overflow:hidden;
+            box-shadow:0 24px 60px rgba(0,0,0,0.5);
+            padding:6px !important;
+        }
+
+        .dropdown-item{
+            color:var(--muted) !important;
+            font-size:14px;
+            border-radius:8px !important;
+            padding:10px 14px !important;
+            transition:.2s;
+        }
+
+        .dropdown-item:hover{
+            background:rgba(216,255,79,0.1) !important;
+            color:var(--paper) !important;
+        }
+
+        /* =====================================================
+           5. HERO / CAROUSEL REPLACEMENT
+        ===================================================== */
+        #header-carousel{
+            position:relative;
+            background:var(--ink);
+            min-height:640px;
+        }
+
+        #header-carousel .carousel-item{
+            background:transparent;
+        }
+
+        #header-carousel .carousel-item img{
+            display:none !important; /* no stock imagery */
+        }
+
+        .om-hero{
+            position:relative;
+            min-height:640px;
+            display:flex;
+            align-items:center;
+            padding-top:140px;
+            padding-bottom:60px;
+            overflow:hidden;
+        }
+
+        .om-hero-grid{
+            position:absolute;
+            inset:0;
+            background-image:
+                linear-gradient(rgba(216,255,79,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(216,255,79,0.05) 1px, transparent 1px);
+            background-size:64px 64px;
+            mask-image:radial-gradient(ellipse 70% 60% at 70% 40%, black, transparent 70%);
+            pointer-events:none;
+        }
+
+        .om-hero .container{ position:relative; z-index:2; }
+
+        .om-hero-copy .om-eyebrow{ margin-bottom:22px; }
+
+        .om-hero h1.display-4{
+            font-family:var(--font-display) !important;
+            font-weight:700 !important;
+            font-size:clamp(34px, 5vw, 58px) !important;
+            line-height:1.08 !important;
+            color:var(--paper) !important;
+            text-shadow:none !important;
+        }
+
+        .om-hero h1.display-4 .om-accent{ color:var(--citrus); }
+
+        .om-hero p.fs-5{
+            color:var(--muted) !important;
+            font-family:var(--font-body) !important;
+            font-size:17px !important;
+            max-width:480px;
+        }
+
+        .om-hero-stats{
+            display:flex;
+            gap:36px;
+            margin-top:38px;
+            padding-top:30px;
+            border-top:1px solid var(--line);
+        }
+
+        .om-hero-stats .stat b{
+            display:block;
+            font-family:var(--font-display);
+            font-size:26px;
+            color:var(--paper);
+        }
+
+        .om-hero-stats .stat span{
+            font-size:12px;
+            letter-spacing:0.08em;
+            text-transform:uppercase;
+            color:var(--muted);
+        }
+
+        .om-hero-stage{
+            position:relative;
+            height:480px;
+            border-radius:var(--radius-lg);
+            border:1px solid var(--line);
+            background:
+                radial-gradient(circle at 50% 30%, rgba(216,255,79,0.08), transparent 60%),
+                var(--ink-2);
+            overflow:hidden;
+        }
+
+        .om-hero-stage canvas{
+            position:absolute;
+            inset:0;
+            width:100% !important;
+            height:100% !important;
+            cursor:grab;
+        }
+
+        .om-hero-stage canvas:active{ cursor:grabbing; }
+
+        .om-stage-tag{
+            position:absolute;
+            top:18px;
+            left:18px;
+            font-family:var(--font-display);
+            font-size:11px;
+            letter-spacing:0.16em;
+            text-transform:uppercase;
+            color:var(--muted);
+            display:flex;
+            align-items:center;
+            gap:8px;
+            z-index:3;
+        }
+
+        .om-stage-tag .dot{
+            width:7px; height:7px; border-radius:50%;
+            background:var(--citrus);
+            box-shadow:0 0 10px var(--citrus);
+            animation:omPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes omPulse{
+            0%,100%{ opacity:1; transform:scale(1); }
+            50%{ opacity:.4; transform:scale(.7); }
+        }
+
+        .om-stage-hint{
+            position:absolute;
+            bottom:18px;
+            right:18px;
+            font-size:11px;
+            color:var(--muted);
+            z-index:3;
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
+
+        /* =====================================================
+           6. BUTTONS
+        ===================================================== */
+        .btn-primary{
+            background:var(--citrus) !important;
+            border:none !important;
+            color:#0B0E14 !important;
+            font-weight:600 !important;
+            border-radius:999px !important;
+            transition:transform .3s var(--ease-out), box-shadow .3s var(--ease-out) !important;
+        }
+
+        .btn-primary:hover{
+            transform:translateY(-2px);
+            box-shadow:0 14px 30px rgba(216,255,79,0.25);
+            color:#0B0E14 !important;
+        }
+
+        .btn-outline-primary{
+            border:1px solid var(--line-2) !important;
+            color:var(--paper) !important;
+            background:transparent !important;
+            border-radius:999px !important;
+            transition:.3s var(--ease-soft) !important;
+        }
+
+        .btn-outline-primary:hover{
+            background:rgba(255,255,255,0.06) !important;
+            border-color:var(--citrus) !important;
+            color:var(--citrus) !important;
+        }
+
+        .btn-square{
+            background:var(--ink-3) !important;
+            border:1px solid var(--line) !important;
+            color:var(--muted) !important;
+            border-radius:50% !important;
+            transition:.3s var(--ease-soft) !important;
+        }
+
+        .btn-square:hover{
+            background:var(--citrus) !important;
+            border-color:var(--citrus) !important;
+            color:#0B0E14 !important;
+        }
+
+        .rounded-pill.bg-secondary{
+            background:rgba(67,217,195,0.1) !important;
+            color:var(--teal) !important;
+            border:1px solid rgba(67,217,195,0.3) !important;
+        }
+
+        /* =====================================================
+           7. ABOUT / "WHY US" SECTION
+        ===================================================== */
+        #a{ position:relative; z-index:2; padding-top:100px !important; }
+
+        #a .text-dark{ color:var(--paper) !important; }
+        #a p{ color:var(--muted) !important; }
+
+        #a .bg-light{
+            background:var(--ink-3) !important;
+            border:1px solid var(--line) !important;
+            border-left:3px solid var(--citrus) !important;
+            border-radius:var(--radius-md) !important;
+        }
+
+        #a .bg-light .text-dark{ color:var(--text) !important; }
+        #a .bg-light .text-primary{ color:var(--citrus) !important; font-weight:600; }
+
+        .om-shelf-wrap{
+            position:relative;
+            height:420px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            perspective:1400px;
+        }
+
+        .om-shelf{
+            position:relative;
+            width:340px;
+            height:340px;
+            transform-style:preserve-3d;
+            transform:rotateX(55deg) rotateZ(45deg);
+            animation:omShelfSpin 26s linear infinite;
+        }
+
+        @keyframes omShelfSpin{
+            0%{ transform:rotateX(55deg) rotateZ(45deg); }
+            100%{ transform:rotateX(55deg) rotateZ(405deg); }
+        }
+
+        .om-shelf .tile{
+            position:absolute;
+            width:84px; height:84px;
+            border:1px solid rgba(216,255,79,0.25);
+            background:linear-gradient(135deg, rgba(216,255,79,0.08), transparent);
+        }
+
+        .om-item3d{
+            position:absolute;
+            width:80px; height:80px;
+            transform-style:preserve-3d;
+            animation:omItemBob 5s ease-in-out infinite;
+        }
+
+        .om-item3d .face{
+            position:absolute;
+            inset:0;
+            border-radius:16px;
+            border:1px solid rgba(255,255,255,0.14);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:30px;
+            backface-visibility:hidden;
+        }
+        .om-item3d .front{
+            background:linear-gradient(150deg, var(--citrus), var(--citrus-dim));
+            color:#0B0E14;
+            transform:translateZ(16px);
+        }
+        .om-item3d .edge{
+            background:#7C9A2E;
+            border-radius:0 0 16px 16px;
+            transform:rotateX(-90deg) translateZ(64px);
+            height:32px;
+            top:auto;
+            bottom:-16px;
+        }
+
+        @keyframes omItemBob{
+            0%,100%{ transform:translateZ(0) rotateZ(0deg); }
+            50%{ transform:translateZ(20px) rotateZ(2deg); }
+        }
+
+        .om-item3d.i1{ top:18px; left:24px; animation-delay:0s; }
+        .om-item3d.i2{ top:14px; left:142px; animation-delay:.6s; }
+        .om-item3d.i2 .front{ background:linear-gradient(150deg, var(--coral), #B5483A); color:#fff; }
+        .om-item3d.i2 .edge{ background:#8C3328; }
+        .om-item3d.i3{ top:142px; left:60px; animation-delay:1.2s; }
+        .om-item3d.i3 .front{ background:linear-gradient(150deg, var(--teal), #2FA593); color:#0B0E14; }
+        .om-item3d.i3 .edge{ background:#227165; }
+        .om-item3d.i4{ top:146px; left:184px; animation-delay:1.8s; }
+        .om-item3d.i4 .front{ background:linear-gradient(150deg, #C9A6FF, #8C6CC9); color:#0B0E14; }
+        .om-item3d.i4 .edge{ background:#6B4FA0; }
+
+        .om-floor{
+            position:absolute;
+            inset:0;
+            background:
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 42px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 42px);
+            transform:translateZ(0);
+            border:1px solid var(--line);
+        }
+
+        .om-shelf-glow{
+            position:absolute;
+            inset:0;
+            background:radial-gradient(circle, rgba(216,255,79,0.12), transparent 65%);
+            filter:blur(30px);
+        }
+
+        .om-shelf-badge{
+            position:absolute;
+            top:14px;
+            right:14px;
+            background:var(--ink-3);
+            border:1px solid var(--line-2);
+            border-radius:999px;
+            padding:8px 16px;
+            font-family:var(--font-display);
+            font-size:12px;
+            color:var(--paper);
+            display:flex;
+            align-items:center;
+            gap:8px;
+            z-index:5;
+        }
+
+        /* =====================================================
+           8. CATEGORY / FEATURE STRIP
+        ===================================================== */
+        .om-categories{ padding:100px 0; position:relative; z-index:2; }
+
+        .om-cat-grid{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:22px;
+            margin-top:48px;
+        }
+
+        @media (max-width:991px){ .om-cat-grid{ grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:575px){ .om-cat-grid{ grid-template-columns:1fr; } }
+
+        .om-cat-card{
+            perspective:1200px;
+            height:230px;
+        }
+
+        .om-cat-inner{
+            position:relative;
+            width:100%;
+            height:100%;
+            transform-style:preserve-3d;
+            transition:transform .7s var(--ease-out);
+        }
+
+        .om-cat-card:hover .om-cat-inner{
+            transform:rotateY(180deg);
+        }
+
+        .om-cat-face{
+            position:absolute;
+            inset:0;
+            border-radius:var(--radius-md);
+            backface-visibility:hidden;
+            -webkit-backface-visibility:hidden;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between;
+            padding:26px;
+            border:1px solid var(--line);
+        }
+
+        .om-cat-front{
+            background:linear-gradient(155deg, var(--ink-3), var(--ink-2));
+        }
+
+        .om-cat-back{
+            background:var(--citrus);
+            color:#0B0E14;
+            transform:rotateY(180deg);
+            justify-content:center;
+            align-items:flex-start;
+        }
+
+        .om-cat-icon{
+            width:52px; height:52px;
+            border-radius:14px;
+            background:rgba(216,255,79,0.1);
+            display:flex; align-items:center; justify-content:center;
+            font-size:22px;
+            color:var(--citrus);
+        }
+
+        .om-cat-front h5{ font-size:19px; margin:0; color:var(--paper) !important; }
+        .om-cat-front span{ font-size:13px; color:var(--muted); }
+
+        .om-cat-back h6{ color:#0B0E14 !important; font-size:13px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
+        .om-cat-back p{ color:rgba(11,14,20,0.8); font-size:14px; margin-bottom:14px; }
+        .om-cat-back a{ color:#0B0E14; font-weight:600; font-size:14px; display:inline-flex; align-items:center; gap:6px; }
+
+        /* =====================================================
+           9. SPINNING PRODUCT CUBES STRIP
+        ===================================================== */
+        .om-conveyor{
+            position:relative;
+            padding:50px 0;
+            border-top:1px solid var(--line);
+            border-bottom:1px solid var(--line);
+            background:var(--ink-2);
+            overflow:hidden;
+            z-index:2;
+        }
+
+        .om-conveyor-track{
+            display:flex;
+            align-items:center;
+            gap:90px;
+            width:max-content;
+            animation:omConveyor 18s linear infinite;
+        }
+
+        @keyframes omConveyor{
+            0%{ transform:translateX(0); }
+            100%{ transform:translateX(-50%); }
+        }
+
+        .om-witem{
+            width:54px; height:54px;
+            position:relative;
+            transform-style:preserve-3d;
+            animation:omWitemSpin 7s linear infinite;
+            flex:none;
+        }
+
+        .om-witem .f{
+            position:absolute; inset:0;
+            border-radius:14px;
+            border:1px solid rgba(255,255,255,0.18);
+            background:rgba(216,255,79,0.1);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:22px;
+            color:var(--citrus);
+            backface-visibility:hidden;
+        }
+        .om-witem .f2{ transform:rotateY(180deg); }
+
+        @keyframes omWitemSpin{
+            0%{ transform:rotateY(0); }
+            100%{ transform:rotateY(360deg); }
+        }
+
+        /* =====================================================
+           10. PRODUCT GRID (re-purposed "Team" markup)
+        ===================================================== */
+        .om-products{ padding:100px 0; position:relative; z-index:2; }
+
+        .team-item{
+            background:var(--ink-3) !important;
+            border:1px solid var(--line) !important;
+            border-radius:var(--radius-md) !important;
+            transition:transform .15s var(--ease-soft), border-color .3s, box-shadow .3s !important;
+            transform-style:preserve-3d;
+            perspective:900px;
+        }
+
+        .team-item:hover{
+            border-color:rgba(216,255,79,0.35) !important;
+            box-shadow:0 30px 60px rgba(0,0,0,0.45);
+        }
+
+        .team-item .overflow-hidden{
+            position:relative;
+            height:230px;
+            background:
+                linear-gradient(155deg, rgba(216,255,79,0.10), transparent 60%),
+                var(--ink-2);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .team-item .overflow-hidden img{
+            opacity:0 !important;
+            position:absolute;
+        }
+
+        .team-item .overflow-hidden::before{
+            content:'\f290'; /* fa-shopping-bag — Field Tote */
+            font-family:'Font Awesome 5 Free';
+            font-weight:900;
+            font-size:54px;
+            color:var(--citrus);
+            opacity:.85;
+            transform:translateZ(20px) rotate(-6deg);
+            transition:transform .4s var(--ease-out);
+        }
+
+        .team-item:nth-child(2) .overflow-hidden::before{ content:'\f017'; color:var(--coral); }
+        .team-item:nth-child(3) .overflow-hidden::before{ content:'\f54b'; color:var(--teal); }
+        .team-item:nth-child(4) .overflow-hidden::before{ content:'\f553'; color:#C9A6FF; }
+
+        .team-item:hover .overflow-hidden::before{
+            transform:translateZ(34px) rotate(0deg) scale(1.08);
+        }
+
+        .team-text{
+            background:transparent !important;
+            border-top:1px solid var(--line);
+        }
+
+        .team-text h5{ color:var(--paper) !important; font-size:17px; }
+        .team-text .text-primary{ color:var(--citrus) !important; font-size:13px; }
+
+        /* =====================================================
+           11. TRUST / STATS STRIP
+        ===================================================== */
+        .om-trust{
+            padding:70px 0;
+            position:relative;
+            z-index:2;
+            background:var(--ink-2);
+            border-top:1px solid var(--line);
+            border-bottom:1px solid var(--line);
+        }
+
+        .om-trust-grid{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:24px;
+            text-align:center;
+        }
+
+        @media (max-width:767px){ .om-trust-grid{ grid-template-columns:repeat(2,1fr); } }
+
+        .om-trust-grid b{
+            display:block;
+            font-family:var(--font-display);
+            font-size:34px;
+            color:var(--citrus);
+        }
+
+        .om-trust-grid span{
+            font-size:13px;
+            color:var(--muted);
+            text-transform:uppercase;
+            letter-spacing:.06em;
+        }
+
+        /* =====================================================
+           12. GAMES ZONE
+           Three self-contained mini-games (Memory Match, Spin & Win,
+           Tic-Tac-Toe). No external assets — pure CSS + vanilla JS,
+           all logic lives in the "omGames" script block near the
+           end of the document.
+        ===================================================== */
+        .om-games{ padding:100px 0; position:relative; z-index:2; }
+
+        .om-games-grid{
+            display:grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap:26px;
+            margin-top:48px;
+            align-items:stretch;
+        }
+        @media (max-width:991px){ .om-games-grid{ grid-template-columns:1fr; max-width:420px; margin-left:auto; margin-right:auto; } }
+
+        .om-game-card{
+            background:var(--ink-3);
+            border:1px solid var(--line);
+            border-radius:var(--radius-md);
+            padding:26px;
+            display:flex;
+            flex-direction:column;
+        }
+
+        .om-game-card h5{
+            color:var(--paper) !important;
+            font-size:18px;
+            margin-bottom:4px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+        .om-game-card h5 i{ color:var(--citrus); }
+        .om-game-desc{ font-size:13px; color:var(--muted); margin-bottom:18px; }
+
+        .om-game-status{
+            font-size:12px;
+            color:var(--muted);
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:12px;
+        }
+        .om-game-status b{ color:var(--paper); }
+
+        .om-game-btn{
+            background:transparent;
+            border:1px solid var(--line-2);
+            color:var(--paper);
+            border-radius:999px;
+            padding:8px 18px;
+            font-size:13px;
+            font-weight:600;
+            cursor:pointer;
+            transition:.25s;
+            margin-top:auto;
+            align-self:flex-start;
+            font-family:var(--font-body);
+        }
+        .om-game-btn:hover{ background:var(--citrus); border-color:var(--citrus); color:#0B0E14; }
+
+        /* Memory Match */
+        .om-memory-grid{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:8px;
+            margin-bottom:14px;
+        }
+        .om-mem-card{
+            aspect-ratio:1/1;
+            border-radius:8px;
+            background:var(--ink-2);
+            border:1px solid var(--line);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:18px;
+            color:transparent;
+            cursor:pointer;
+            transition:background .2s, color .2s, transform .15s, border-color .2s;
+            user-select:none;
+        }
+        .om-mem-card.flipped{
+            color:var(--citrus);
+            background:rgba(216,255,79,0.08);
+            border-color:rgba(216,255,79,0.3);
+        }
+        .om-mem-card.matched{
+            color:var(--teal);
+            background:rgba(67,217,195,0.08);
+            border-color:rgba(67,217,195,0.4);
+            cursor:default;
+        }
+        .om-mem-card:active{ transform:scale(.94); }
+        .om-mem-win{ font-size:13px; color:var(--citrus); font-weight:600; margin-bottom:10px; min-height:16px; }
+
+        /* Spin & Win */
+        .om-wheel-wrap{
+            position:relative;
+            width:200px;
+            height:200px;
+            margin:0 auto 16px;
+        }
+        .om-wheel{
+            width:100%;
+            height:100%;
+            border-radius:50%;
+            position:relative;
+            border:4px solid var(--ink-2);
+            box-shadow:0 0 0 2px var(--line-2), 0 20px 40px rgba(0,0,0,0.4);
+            transition:transform 4.2s cubic-bezier(.12,.83,.14,1);
+        }
+        .om-wheel-seg{
+            position:absolute;
+            width:50%;
+            height:50%;
+            top:0;
+            left:50%;
+            transform-origin:0% 100%;
+            display:flex;
+            align-items:flex-start;
+            justify-content:center;
+            padding-top:8px;
+            pointer-events:none;
+        }
+        .om-wheel-seg span{
+            display:inline-block;
+            font-size:9px;
+            font-weight:700;
+            letter-spacing:.02em;
+            color:#0B0E14;
+            text-align:center;
+            line-height:1.2;
+            width:56px;
+        }
+        .om-wheel-pointer{
+            position:absolute;
+            top:-6px;
+            left:50%;
+            transform:translateX(-50%);
+            width:0; height:0;
+            border-left:9px solid transparent;
+            border-right:9px solid transparent;
+            border-top:15px solid var(--citrus);
+            z-index:5;
+            filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+        .om-wheel-hub{
+            position:absolute;
+            top:50%; left:50%;
+            width:32px; height:32px;
+            transform:translate(-50%,-50%);
+            background:var(--ink);
+            border:2px solid var(--citrus);
+            border-radius:50%;
+            z-index:4;
+        }
+        .om-game-result{
+            font-size:13px;
+            text-align:center;
+            color:var(--citrus);
+            min-height:18px;
+            margin-bottom:10px;
+            font-weight:600;
+        }
+
+        
+        #message-container{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:9999;
+}
+
+.alert{
+    padding:15px 25px;
+    margin-bottom:10px;
+    border-radius:8px;
+    color:white;
+    font-weight:bold;
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+    animation:slideDown .5s ease;
+}
+
+.success{
+    background:#28a745;
+}
+
+.error{
+    background:#dc3545;
+}
+
+@keyframes slideDown{
+    from{
+        opacity:0;
+        transform:translateY(-30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+        /* Tic Tac Toe */
+        .om-ttt-grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:6px;
+            width:180px;
+            margin:0 auto 14px;
+        }
+        .om-ttt-cell{
+            aspect-ratio:1/1;
+            background:var(--ink-2);
+            border:1px solid var(--line);
+            border-radius:6px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-family:var(--font-display);
+            font-size:26px;
+            font-weight:700;
+            cursor:pointer;
+            color:var(--paper);
+            transition:background .2s, border-color .2s;
+        }
+        .om-ttt-cell:not(.disabled):hover{ border-color:rgba(216,255,79,0.4); }
+        .om-ttt-cell.x{ color:var(--citrus); }
+        .om-ttt-cell.o{ color:var(--coral); }
+        .om-ttt-cell.disabled{ cursor:default; }
+
+        /* =====================================================
+           13. FOOTER
+        ===================================================== */
+        .footer{
+            background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%) !important;
+            border-top:1px solid var(--line);
+        }
+
+        .footer h1.fw-bold .text-primary{ color:var(--citrus) !important; }
+        .footer h1.fw-bold .text-white{ color:var(--paper) !important; }
+        .footer p, .footer span{ color:var(--muted) !important; }
+        .footer h5.text-light{ color:var(--paper) !important; }
+
+        .footer .btn-link{
+            color:var(--muted) !important;
+            display:block;
+            text-align:left;
+            padding-left:0 !important;
+            transition:.25s;
+        }
+        .footer .btn-link:hover{ color:var(--citrus) !important; padding-left:6px !important; }
+
+        .footer .form-control{
+            background:var(--ink-3) !important;
+            border:1px solid var(--line) !important;
+            color:var(--text) !important;
+            border-radius:999px !important;
+        }
+        .footer .form-control::placeholder{ color:var(--muted) !important; }
+
+        .copyright{
+            background:rgba(0,0,0,0.35) !important;
+            border-top:1px solid var(--line);
+            color:var(--muted) !important;
+        }
+        .copyright a{ color:var(--citrus) !important; }
+
+        /* =====================================================
+           14. BACK TO TOP / SPINNER
+        ===================================================== */
+        .back-to-top{
+            background:var(--citrus) !important;
+            color:#0B0E14 !important;
+            border:none !important;
+            box-shadow:0 12px 26px rgba(216,255,79,0.3) !important;
+        }
+
+        #spinner{ background:var(--ink) !important; }
+        #spinner .spinner-grow{ color:var(--citrus) !important; }
+
+        /* =====================================================
+           15. RESPONSIVE TUNING
+        ===================================================== */
+        @media (max-width:991px){
+            .om-hero{ padding-top:170px; }
+            .om-hero-stage{ height:340px; margin-top:40px; }
+        }
+
+        @media (max-width:575px){
+            .om-hero-stats{ flex-wrap:wrap; gap:20px; }
+        }
+
+        a:focus-visible, button:focus-visible, input:focus-visible{
+            outline:2px solid var(--citrus);
+            outline-offset:3px;
+        }
+
+    </style>
+</head>
+{% if messages %}
+<div id="message-container">
+    {% for message in messages %}
+    <div class="alert {{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Ambient background (decorative only, no markup impact) -->
+    <div class="om-bg">
+        <div class="om-bg-field"></div>
+        <div class="om-bg-grid"></div>
+        <div class="om-bg-noise"></div>
+    </div>
+
+    <!-- Navbar Start -->
+    <div class="container-fluid fixed-top px-0 wow fadeIn" data-wow-delay="0.1s">
+        <div class="top-bar text-white-50 row gx-0 align-items-center d-none d-lg-flex">
+            <div class="col-lg-6 px-5 text-start">
+                <small><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</small>
+                <small class="ms-4"><i class="fa fa-envelope me-2"></i>info@example.com</small>
+            </div>
+            <div class="col-lg-6 px-5 text-end">
+                <small>Follow us:</small>
+                <a class="text-white-50 ms-3" href=""><i class="fab fa-facebook-f"></i></a>
+                <a class="text-white-50 ms-3" href=""><i class="fab fa-twitter"></i></a>
+                <a class="text-white-50 ms-3" href=""><i class="fab fa-linkedin-in"></i></a>
+                <a class="text-white-50 ms-3" href=""><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-lg navbar-dark py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s" id="omNavbar">
+            <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+                <h1 class="fw-bold text-primary m-0">Zivora</span></h1>
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto p-4 p-lg-0">
+                    <a href="/myapp/home/" class="nav-item nav-link active">Home</a>
+                    <a href="/myapp/view_cart/#abcd" class="nav-item nav-link">My Cart</a>
+                    <a href="/myapp/view_user_products/#abcd" class="nav-item nav-link">Products</a>
+
+                    <a href="/myapp/view_contacts/#abcd" class="nav-item nav-link">Contact</a>
+                     <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Others</a>
+                        <div class="dropdown-menu m-0">
+                            <a href="#" class="dropdown-item">Service</a>
+                            <a href="/myapp/view_OrderDetails/#abcd" class="dropdown-item">My Orders</a>
+
+                            <a href="/myapp/view_profile/#abcd" class="dropdown-item">My Profile</a>
+                            <a href="/myapp/change_password/#abcd" class="dropdown-item">Change Password</a>
+                            <a href="/myapp/logout/" class="dropdown-item">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="d-none d-lg-flex ms-2">
+                    <a class="btn btn-outline-primary py-2 px-3" href="">
+                        Donate Now
+                        <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
+                            <i class="fa fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div> -->
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Carousel Start (kept for structure; visuals replaced by the 3D hero stage below) -->
+    <div class="container-fluid p-0 ">
+        <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="/static/user/img/A1.png" alt="Image">
+
+                    <!-- OM HERO: real 3D shopping stage, replaces the old caption -->
+                    <section class="om-hero">
+                        <div class="om-hero-grid"></div>
+                        <div class="container">
+                            <div class="row align-items-center g-5">
+                                <div class="col-lg-6 om-hero-copy">
+                                    <div class="om-eyebrow">Curated Marketplace</div>
+                                    <h1 class="display-4 mb-3 animated slideInDown">
+                                        Every parcel<br>
+                                        carries a <span class="om-accent">life-changing</span> purpose
+                                    </h1>
+                                    <p class="fs-5 mb-4 animated slideInDown">
+                                        Shop a refined catalogue of everyday essentials where a share of every order funds real community programs &mdash; tracked from cart to doorstep.
+                                    </p>
+                                    <a class="btn btn-primary py-2 px-4 animated slideInDown" href="/myapp/view_user_products/#abcd">
+                                        Start Shopping
+                                        <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                    </a>
+                                    <a class="btn btn-outline-primary py-2 px-4 ms-2 animated slideInDown" href="#a">
+                                        Our Story
+                                    </a>
+
+                                    <div class="om-hero-stats">
+                                        <div class="stat"><b>12K+</b><span>Orders Shipped</span></div>
+                                        <div class="stat"><b>4.9★</b><span>Average Rating</span></div>
+                                        <div class="stat"><b>38</b><span>Cities Served</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="om-hero-stage" id="omStage">
+                                        <div class="om-stage-tag"><span class="dot"></span> Live 3D Preview</div>
+                                        <div class="om-stage-hint"><i class="bi bi-arrows-move"></i> drag to rotate</div>
+                                        <!-- WebGL canvas is injected here by omHero3D.js below -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="carousel-item">
+                    <img class="w-100" src="/static/user/img/A2.png" alt="Image">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+<div id="abcd">
+{%block body%}
+    <!-- About Start -->
+    <div class="container-xxl py-5" id="a">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="om-shelf-wrap">
+                        <div class="om-shelf-glow"></div>
+                        <div class="om-shelf-badge"><i class="fa fa-tshirt text-warning"></i> Live Inventory</div>
+                        <div class="om-shelf">
+                            <div class="om-floor"></div>
+                            <div class="om-item3d i1">
+                                <div class="face front"><i class="fas fa-tshirt"></i></div>
+                                <div class="face edge"></div>
+                            </div>
+                            <div class="om-item3d i2">
+                                <div class="face front" style="font-size:32px;">&#128086;</div>
+                                <div class="face edge"></div>
+                            </div>
+                            <div class="om-item3d i3">
+                                <div class="face front"><i class="fas fa-shoe-prints"></i></div>
+                                <div class="face edge"></div>
+                            </div>
+                            <div class="om-item3d i4">
+                                <div class="face front"><i class="fas fa-shopping-bag"></i></div>
+                                <div class="face edge"></div>
+                            </div>
+                        </div>
+                        <img class="position-absolute w-100 h-100 pt-5 pe-5" src="/static/user/img/A3.png" alt="" style="object-fit: cover; opacity:0; z-index:-1;">
+                        <img class="position-absolute top-0 end-0 bg-white ps-2 pb-2" src="/static/user/img/A4.png" alt="" style="width: 200px; height: 200px; opacity:0; z-index:-1;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="h-100">
+                        <div class="d-inline-block rounded-pill bg-secondary text-primary py-1 px-3 mb-3">About Us</div>
+                        <h1 class="display-6 mb-5">We Sell Best Quality Products with Reasonable Price</h1>
+                        <div class="bg-light border-bottom border-5 border-primary rounded p-4 mb-4">
+                            <p class="text-dark mb-2">Curating a refined collection of premium lifestyle essentials, crafted for those who appreciate timeless quality and understated elegance.</p>
+                            <span class="text-primary">Rahul T P, Founder</span>
+                        </div>
+                        <p class="mb-5">Your destination for elevated everyday luxury, from finely crafted leather goods to curated sensory experiences</p>
+                        <a class="btn btn-primary py-2 px-3 me-3" href="">
+                            Learn More
+                            <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
+                                <i class="fa fa-arrow-right"></i>
+                            </div>
+                        </a>
+                        <a class="btn btn-outline-primary py-2 px-3" href="">
+                            Contact Us
+                            <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
+                                <i class="fa fa-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+     {%endblock%}
+
+</div>
+
+    <!-- Conveyor divider: spinning parcel cubes -->
+    <div class="om-conveyor">
+        <div class="om-conveyor-track" id="omConveyorTrack">
+            <!-- cubes injected by JS for a seamless looping strip -->
+        </div>
+    </div>
+
+    <!-- Category Section: CSS 3D flip cards -->
+    <div class="om-categories">
+        <div class="container">
+            <div class="text-center mx-auto mb-3 wow fadeInUp" data-wow-delay="0.1s" style="max-width:560px;">
+                <div class="om-eyebrow" style="justify-content:center;">Browse</div>
+                <h2 class="om-heading">Shop by <em>category</em></h2>
+                <p class="om-sub mx-auto mt-3">Flip a card to see what's inside &mdash; every category ships carbon-neutral within 48 hours.</p>
+            </div>
+            <div class="om-cat-grid">
+                <div class="om-cat-card wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="om-cat-inner">
+                        <div class="om-cat-face om-cat-front">
+                            <div class="om-cat-icon"><i class="fa fa-tshirt"></i></div>
+                            <div><h5>Apparel</h5><span>240+ items</span></div>
+                        </div>
+                        <div class="om-cat-face om-cat-back">
+                            <h6>Apparel</h6>
+                            <p>Breathable fabrics, ethically sourced, sized for every body.</p>
+                            <a href="/myapp/view_user_products/#abcd">Browse range <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="om-cat-card wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="om-cat-inner">
+                        <div class="om-cat-face om-cat-front">
+                            <div class="om-cat-icon" style="background:rgba(255,107,87,0.12); color:var(--coral);"><i class="fa fa-shoe-prints"></i></div>
+                            <div><h5>Footwear</h5><span>180+ items</span></div>
+                        </div>
+                        <div class="om-cat-face om-cat-back">
+                            <h6>Footwear</h6>
+                            <p>From trail-ready boots to everyday sneakers, true to size.</p>
+                            <a href="/myapp/view_user_products/#abcd">Browse range <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="om-cat-card wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="om-cat-inner">
+                        <div class="om-cat-face om-cat-front">
+                            <div class="om-cat-icon" style="background:rgba(67,217,195,0.12); color:var(--teal);"><i class="fa fa-gem"></i></div>
+                            <div><h5>Accessories</h5><span>95+ items</span></div>
+                        </div>
+                        <div class="om-cat-face om-cat-back">
+                            <h6>Accessories</h6>
+                            <p>Bags, watches and small leather goods finished by hand.</p>
+                            <a href="/myapp/view_user_products/#abcd">Browse range <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="om-cat-card wow fadeInUp" data-wow-delay="0.4s">
+                    <div class="om-cat-inner">
+                        <div class="om-cat-face om-cat-front">
+                            <div class="om-cat-icon" style="background:rgba(201,166,255,0.12); color:#C9A6FF;"><i class="fa fa-mug-hot"></i></div>
+                            <div><h5>Home &amp; Living</h5><span>140+ items</span></div>
+                        </div>
+                        <div class="om-cat-face om-cat-back">
+                            <h6>Home &amp; Living</h6>
+                            <p>Considered objects for the table, the desk and the shelf.</p>
+                            <a href="/myapp/view_user_products/#abcd">Browse range <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust strip -->
+    <div class="om-trust">
+        <div class="container">
+            <div class="om-trust-grid">
+                <div class="wow fadeInUp" data-wow-delay="0.1s"><b>98%</b><span>On-time delivery</span></div>
+                <div class="wow fadeInUp" data-wow-delay="0.2s"><b>30-Day</b><span>Free returns</span></div>
+                <div class="wow fadeInUp" data-wow-delay="0.3s"><b>256-bit</b><span>Checkout encryption</span></div>
+                <div class="wow fadeInUp" data-wow-delay="0.4s"><b>24/7</b><span>Human support</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Games Zone Start -->
+    <div class="om-games">
+        <div class="container">
+            <div class="text-center mx-auto mb-3 wow fadeInUp" data-wow-delay="0.1s" style="max-width:560px;">
+                <div class="om-eyebrow" style="justify-content:center;">While You Browse</div>
+                <h2 class="om-heading">Take a <em>break</em>, play a round</h2>
+                <p class="om-sub mx-auto mt-3">Three quick games, right here on the homepage &mdash; no download, no login.</p>
+            </div>
+            <div class="om-games-grid">
+
+                <!-- Memory Match -->
+                <div class="om-game-card wow fadeInUp" data-wow-delay="0.1s">
+                    <h5><i class="fa fa-clone"></i> Memory Match</h5>
+                    <p class="om-game-desc">Flip the cards two at a time and clear the board.</p>
+                    <div class="om-game-status">
+                        <span>Moves: <b id="memMoves">0</b></span>
+                        <span>Pairs: <b id="memPairs">0</b>/8</span>
+                    </div>
+                    <div class="om-memory-grid" id="memoryGrid"></div>
+                    <div class="om-mem-win" id="memWinMsg">&nbsp;</div>
+                    <button type="button" class="om-game-btn" id="memReset">Restart</button>
+                </div>
+
+                <!-- Spin & Win -->
+                <div class="om-game-card wow fadeInUp" data-wow-delay="0.3s">
+                    <h5><i class="fa fa-sync"></i> Spin &amp; Win</h5>
+                    <p class="om-game-desc">Spin the wheel and see what you land on.</p>
+                    <div class="om-wheel-wrap">
+                        <div class="om-wheel-pointer"></div>
+                        <div class="om-wheel" id="spinWheel"></div>
+                        <div class="om-wheel-hub"></div>
+                    </div>
+                    <div class="om-game-result" id="spinResult">&nbsp;</div>
+                    <button type="button" class="om-game-btn" id="spinBtn" style="align-self:center;">Spin the wheel</button>
+                </div>
+
+                <!-- Tic Tac Toe -->
+                <div class="om-game-card wow fadeInUp" data-wow-delay="0.5s">
+                    <h5><i class="fa fa-border-all"></i> Tic-Tac-Toe</h5>
+                    <p class="om-game-desc">You're X, the shop assistant is O. Get three in a row.</p>
+                    <div class="om-game-status"><span id="tttStatus">Your move</span></div>
+                    <div class="om-ttt-grid" id="tttGrid"></div>
+                    <button type="button" class="om-game-btn" id="tttReset" style="align-self:center;">New game</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Games Zone End -->
+
+    <!-- Team Start (kept as product/feature spotlight grid) -->
+    <div class="om-products">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                <div class="om-eyebrow" style="justify-content:center;">This Week</div>
+                <h1 class="display-6 mb-0">Editor's picks</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="/static/user/img/RAHUL.jpeg" alt="">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Field Tote</h5>
+                            <p class="text-primary">Accessories &middot; ₹2,499</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="/static/user/img/poothiri.jpeg" alt="">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Studio Watch</h5>
+                            <p class="text-primary">Accessories &middot; ₹5,999</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="/static/user/img/nandu.jpeg" alt="">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Trail Runner</h5>
+                            <p class="text-primary">Footwear &middot; ₹3,799</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="/static/user/img/jebin.jpeg" alt="">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>Linen Shirt</h5>
+                            <p class="text-primary">Apparel &middot; ₹1,899</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white-50 footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h1 class="fw-bold text-primary mb-4">Zivora</h1>
+                    <p>A considered shopping experience where every purchase supports a community program, delivered with care across 38 cities.</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-square me-1" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square me-1" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square me-1" href=""><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square me-0" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Address</h5>
+                    <p><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                    <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Quick Links</h5>
+                    <a class="btn btn-link" href="">About Us</a>
+                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="">Terms &amp; Condition</a>
+                    <a class="btn btn-link" href="">Support</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Newsletter</h5>
+                    <p>Get early access to new drops and restocks.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/user/lib/wow/wow.min.js"></script>
+    <script src="/static/user/lib/easing/easing.min.js"></script>
+    <script src="/static/user/lib/waypoints/waypoints.min.js"></script>
+    <script src="/static/user/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/static/user/lib/parallax/parallax.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/static/user/js/main.js"></script>
+
+    <!-- Three.js (for the hero 3D parcel model) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Theme decorative JS -->
+    <script>
+    (function(){
+
+        /* navbar glass intensify on scroll */
+        var nav = document.getElementById('omNavbar');
+        if(nav){
+            window.addEventListener('scroll', function(){
+                nav.classList.toggle('om-scrolled', window.scrollY > 10);
+            });
+        }
+
+        /* build the conveyor strip (duplicated for a seamless loop) */
+        var track = document.getElementById('omConveyorTrack');
+        if(track){
+            var iconSet = ['fa-tshirt','fa-shoe-prints', null, 'fa-glasses','fa-hat-wizard','fa-shopping-bag','fa-ring','fa-mask'];
+            var emojiSet = { 2: '\u{1F456}' };
+            var html = '';
+            for(var rep = 0; rep < 2; rep++){
+                for(var i = 0; i < iconSet.length; i++){
+                    var glyphHtml = iconSet[i]
+                        ? '<i class="fas ' + iconSet[i] + '"></i>'
+                        : '<span style="font-size:22px;">' + emojiSet[i] + '</span>';
+                    html += '<div class="om-witem" style="animation-duration:' + (6 + (i % 4)) + 's;">' +
+                        '<div class="f f1">' + glyphHtml + '</div>' +
+                        '<div class="f f2">' + glyphHtml + '</div>' +
+                        '</div>';
+                }
+            }
+            track.innerHTML = html;
+        }
+
+    })();
+    </script>
+
+    <!-- ============================================================
+         omHero3D.js
+         Renders a rotating, draggable low-poly "parcel" inside the
+         hero stage using Three.js. Falls back silently if the
+         canvas context or library is unavailable.
+    ============================================================= -->
+    <script>
+    (function(){
+        var stage = document.getElementById('omStage');
+        if(!stage || typeof THREE === 'undefined') return;
+
+        var width = stage.clientWidth || 560;
+        var height = stage.clientHeight || 480;
+
+        var scene = new THREE.Scene();
+
+        var camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+        camera.position.set(3.4, 2.6, 4.4);
+        camera.lookAt(0, 0.2, 0);
+
+        var renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+        renderer.setSize(width, height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        stage.appendChild(renderer.domElement);
+
+        var key = new THREE.DirectionalLight(0xffffff, 1.1);
+        key.position.set(4, 6, 3);
+        scene.add(key);
+
+        var rim = new THREE.DirectionalLight(0xd8ff4f, 0.6);
+        rim.position.set(-4, 2, -3);
+        scene.add(rim);
+
+        var amb = new THREE.AmbientLight(0x6677aa, 0.55);
+        scene.add(amb);
+
+        var parcel = new THREE.Group();
+        scene.add(parcel);
+
+        var boxMat = new THREE.MeshStandardMaterial({ color: 0x1a2030, roughness: 0.55, metalness: 0.15 });
+        var lidMat = new THREE.MeshStandardMaterial({ color: 0xd8ff4f, roughness: 0.4, metalness: 0.1 });
+        var tapeMat = new THREE.MeshStandardMaterial({ color: 0x0b0e14, roughness: 0.6 });
+        var labelMat = new THREE.MeshStandardMaterial({ color: 0xf3efe6, roughness: 0.7 });
+
+        var base = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.3, 1.6), boxMat);
+        base.position.y = 0;
+        parcel.add(base);
+
+        var flapGeo = new THREE.BoxGeometry(2.2, 0.05, 0.85);
+        var flapL = new THREE.Mesh(flapGeo, lidMat);
+        flapL.position.set(0, 0.66, -0.78);
+        flapL.rotation.x = THREE.MathUtils ? THREE.MathUtils.degToRad(-58) : -1.0;
+        parcel.add(flapL);
+
+        var flapR = new THREE.Mesh(flapGeo, lidMat);
+        flapR.position.set(0, 0.66, 0.78);
+        flapR.rotation.x = THREE.MathUtils ? THREE.MathUtils.degToRad(58) : 1.0;
+        parcel.add(flapR);
+
+        var tape = new THREE.Mesh(new THREE.BoxGeometry(0.35, 1.32, 1.62), tapeMat);
+        tape.position.set(0, 0, 0);
+        parcel.add(tape);
+
+        var label = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.55, 0.85), labelMat);
+        label.position.set(1.11, -0.1, 0);
+        parcel.add(label);
+
+        var itemGroup = new THREE.Group();
+        parcel.add(itemGroup);
+
+        function makeIconSprite(glyph, bg){
+            var c = document.createElement('canvas');
+            c.width = 128; c.height = 128;
+            var ctx = c.getContext('2d');
+            ctx.fillStyle = bg;
+            ctx.beginPath();
+            ctx.arc(64, 64, 60, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.font = '64px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(glyph, 64, 70);
+            var tex = new THREE.CanvasTexture(c);
+            tex.needsUpdate = true;
+            var mat = new THREE.SpriteMaterial({ map: tex, transparent:true });
+            var sprite = new THREE.Sprite(mat);
+            sprite.scale.set(0.55, 0.55, 0.55);
+            return sprite;
+        }
+
+        var itemA = makeIconSprite('\u{1F455}', '#ff6b57');
+        itemA.position.set(-0.55, 1.1, -0.1);
+        itemGroup.add(itemA);
+
+        var itemB = makeIconSprite('\u{1F45F}', '#43d9c3');
+        itemB.position.set(0.5, 1.25, 0.15);
+        itemGroup.add(itemB);
+
+        var itemC = makeIconSprite('\u{1F45C}', '#c9a6ff');
+        itemC.position.set(0.05, 1.5, -0.35);
+        itemGroup.add(itemC);
+
+        var ground = new THREE.Mesh(
+            new THREE.CircleGeometry(2.6, 48),
+            new THREE.MeshBasicMaterial({ color: 0x000000, transparent:true, opacity:0.25 })
+        );
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = -0.66;
+        scene.add(ground);
+
+        parcel.position.y = -0.1;
+
+        var dragging = false;
+        var lastX = 0, lastY = 0;
+        var targetRotY = 0.6, targetRotX = -0.15;
+        var currentRotY = targetRotY, currentRotX = targetRotX;
+        var autoSpin = true;
+
+        function pointerDown(x, y){
+            dragging = true;
+            autoSpin = false;
+            lastX = x; lastY = y;
+        }
+        function pointerMove(x, y){
+            if(!dragging) return;
+            var dx = x - lastX;
+            var dy = y - lastY;
+            targetRotY += dx * 0.01;
+            targetRotX += dy * 0.008;
+            targetRotX = Math.max(-0.6, Math.min(0.6, targetRotX));
+            lastX = x; lastY = y;
+        }
+        function pointerUp(){ dragging = false; }
+
+        var canvas = renderer.domElement;
+        canvas.addEventListener('mousedown', function(e){ pointerDown(e.clientX, e.clientY); });
+        window.addEventListener('mousemove', function(e){ pointerMove(e.clientX, e.clientY); });
+        window.addEventListener('mouseup', pointerUp);
+
+        canvas.addEventListener('touchstart', function(e){
+            var t = e.touches[0]; pointerDown(t.clientX, t.clientY);
+        }, { passive:true });
+        canvas.addEventListener('touchmove', function(e){
+            var t = e.touches[0]; pointerMove(t.clientX, t.clientY);
+        }, { passive:true });
+        canvas.addEventListener('touchend', pointerUp);
+
+        var clock = new THREE.Clock();
+
+        function animate(){
+            requestAnimationFrame(animate);
+            var t = clock.getElapsedTime();
+
+            if(autoSpin){ targetRotY += 0.0035; }
+
+            currentRotY += (targetRotY - currentRotY) * 0.08;
+            currentRotX += (targetRotX - currentRotX) * 0.08;
+
+            parcel.rotation.y = currentRotY;
+            parcel.rotation.x = currentRotX;
+            parcel.position.y = -0.1 + Math.sin(t * 1.1) * 0.05;
+
+            itemA.position.y = 1.1 + Math.sin(t * 1.6) * 0.07;
+            itemA.material.rotation += 0.01;
+            itemB.position.y = 1.25 + Math.sin(t * 1.3 + 1) * 0.06;
+            itemB.material.rotation += 0.012;
+            itemC.position.y = 1.45 + Math.sin(t * 1.8 + 2) * 0.05;
+            itemC.material.rotation += 0.014;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('mouseup', function(){
+            setTimeout(function(){ autoSpin = true; }, 2200);
+        });
+        canvas.addEventListener('touchend', function(){
+            setTimeout(function(){ autoSpin = true; }, 2200);
+        });
+
+        function resize(){
+            var w = stage.clientWidth, h = stage.clientHeight;
+            if(!w || !h) return;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        }
+        window.addEventListener('resize', resize);
+    })();
+    </script>
+
+    <!-- ============================================================
+         omGames.js
+         All logic for the three homepage mini-games: Memory Match,
+         Spin & Win, and Tic-Tac-Toe. Vanilla JS, no dependencies,
+         no data leaves the page.
+    ============================================================= -->
+    <script>
+    (function(){
+
+        /* -------------------------------------------------------
+           GAME 1: MEMORY MATCH
+        ------------------------------------------------------- */
+        function initMemoryGame(){
+            var grid = document.getElementById('memoryGrid');
+            if(!grid) return;
+
+            var icons = ['fa-tshirt','fa-shoe-prints','fa-gem','fa-mug-hot','fa-shopping-bag','fa-ring','fa-glasses','fa-hat-wizard'];
+            var deck = icons.concat(icons);
+
+            /* Fisher-Yates shuffle */
+            for(var i = deck.length - 1; i > 0; i--){
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp;
+            }
+
+            var movesEl = document.getElementById('memMoves');
+            var pairsEl = document.getElementById('memPairs');
+            var winEl = document.getElementById('memWinMsg');
+
+            var moves = 0, pairs = 0, flipped = [], lock = false;
+            movesEl.textContent = '0';
+            pairsEl.textContent = '0';
+            winEl.textContent = '\u00A0';
+            grid.innerHTML = '';
+
+            deck.forEach(function(icon){
+                var card = document.createElement('div');
+                card.className = 'om-mem-card';
+                card.innerHTML = '<i class="fas ' + icon + '"></i>';
+                card.dataset.icon = icon;
+
+                card.addEventListener('click', function(){
+                    if(lock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+                    card.classList.add('flipped');
+                    flipped.push(card);
+
+                    if(flipped.length === 2){
+                        moves++;
+                        movesEl.textContent = String(moves);
+                        lock = true;
+
+                        var a = flipped[0], b = flipped[1];
+                        if(a.dataset.icon === b.dataset.icon){
+                            a.classList.add('matched');
+                            b.classList.add('matched');
+                            pairs++;
+                            pairsEl.textContent = String(pairs);
+                            flipped = [];
+                            lock = false;
+                            if(pairs === icons.length){
+                                winEl.textContent = 'Solved in ' + moves + ' moves! 🎉';
+                            }
+                        } else {
+                            setTimeout(function(){
+                                a.classList.remove('flipped');
+                                b.classList.remove('flipped');
+                                flipped = [];
+                                lock = false;
+                            }, 700);
+                        }
+                    }
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        var memResetBtn = document.getElementById('memReset');
+        if(memResetBtn){ memResetBtn.addEventListener('click', initMemoryGame); }
+        initMemoryGame();
+
+
+        /* -------------------------------------------------------
+           GAME 2: SPIN & WIN
+        ------------------------------------------------------- */
+        function initSpinWheel(){
+            var wheel = document.getElementById('spinWheel');
+            var btn = document.getElementById('spinBtn');
+            var resultEl = document.getElementById('spinResult');
+            if(!wheel || !btn) return;
+
+            var prizes = [
+                { label: '10% OFF',   color: '#D8FF4F' },
+                { label: 'Free Ship', color: '#43D9C3' },
+                { label: 'Try Again', color: '#20263A' },
+                { label: '15% OFF',   color: '#FF6B57' },
+                { label: '5% OFF',    color: '#9FBF3C' },
+                { label: 'BOGO',      color: '#2FA593' },
+                { label: 'Try Again', color: '#4A3A78' },
+                { label: '20% OFF',   color: '#B5483A' }
+            ];
+
+            var seg = 360 / prizes.length;
+
+            var gradientParts = prizes.map(function(p, i){
+                return p.color + ' ' + (i * seg) + 'deg ' + ((i + 1) * seg) + 'deg';
+            });
+            wheel.style.background = 'conic-gradient(' + gradientParts.join(',') + ')';
+
+            wheel.innerHTML = '';
+            prizes.forEach(function(p, i){
+                var mid = seg * i + seg / 2;
+                var wrap = document.createElement('div');
+                wrap.className = 'om-wheel-seg';
+                wrap.style.transform = 'rotate(' + mid + 'deg)';
+                var span = document.createElement('span');
+                span.textContent = p.label;
+                wrap.appendChild(span);
+                wheel.appendChild(wrap);
+            });
+
+            var totalRotation = 0;
+            var spinning = false;
+
+            btn.addEventListener('click', function(){
+                if(spinning) return;
+                spinning = true;
+                btn.disabled = true;
+                resultEl.textContent = 'Spinning\u2026';
+
+                var prizeIndex = Math.floor(Math.random() * prizes.length);
+                var segMidAngle = seg * prizeIndex + seg / 2;
+
+                /* the pointer sits at 0deg (top); conic-gradient also starts
+                   at 0deg (top) and runs clockwise, so to land segMidAngle
+                   under the pointer we rotate the wheel backwards by that
+                   amount, plus several full spins for effect. */
+                var extraSpins = 5 + Math.floor(Math.random() * 3);
+                totalRotation += extraSpins * 360 + (360 - segMidAngle) - (totalRotation % 360);
+
+                wheel.style.transform = 'rotate(' + totalRotation + 'deg)';
+
+                setTimeout(function(){
+                    resultEl.textContent = 'You landed on: ' + prizes[prizeIndex].label + '!';
+                    spinning = false;
+                    btn.disabled = false;
+                }, 4300);
+            });
+        }
+        initSpinWheel();
+
+
+        /* -------------------------------------------------------
+           GAME 3: TIC-TAC-TOE (vs. simple computer opponent)
+        ------------------------------------------------------- */
+        function initTicTacToe(){
+            var grid = document.getElementById('tttGrid');
+            var status = document.getElementById('tttStatus');
+            var resetBtn = document.getElementById('tttReset');
+            if(!grid) return;
+
+            var LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            var board, gameOver;
+
+            function render(){
+                grid.innerHTML = '';
+                board.forEach(function(val, i){
+                    var cell = document.createElement('div');
+                    var cls = 'om-ttt-cell';
+                    if(val) cls += ' ' + val.toLowerCase();
+                    if(gameOver || val) cls += ' disabled';
+                    cell.className = cls;
+                    cell.textContent = val || '';
+                    cell.addEventListener('click', function(){ playerMove(i); });
+                    grid.appendChild(cell);
+                });
+            }
+
+            function checkWinner(b){
+                for(var i = 0; i < LINES.length; i++){
+                    var l = LINES[i];
+                    if(b[l[0]] && b[l[0]] === b[l[1]] && b[l[1]] === b[l[2]]) return b[l[0]];
+                }
+                if(b.every(function(v){ return v; })) return 'draw';
+                return null;
+            }
+
+            function findWinningMove(sym){
+                for(var i = 0; i < LINES.length; i++){
+                    var l = LINES[i];
+                    var vals = [board[l[0]], board[l[1]], board[l[2]]];
+                    var symCount = vals.filter(function(v){ return v === sym; }).length;
+                    var emptyCount = vals.filter(function(v){ return !v; }).length;
+                    if(symCount === 2 && emptyCount === 1){
+                        for(var k = 0; k < 3; k++){ if(!vals[k]) return l[k]; }
+                    }
+                }
+                return null;
+            }
+
+            function computerMove(){
+                var empty = [];
+                board.forEach(function(v, i){ if(!v) empty.push(i); });
+                if(!empty.length) return;
+
+                var move = findWinningMove('O');
+                if(move === null) move = findWinningMove('X');
+                if(move === null && board[4] === null) move = 4;
+                if(move === null) move = empty[Math.floor(Math.random() * empty.length)];
+
+                board[move] = 'O';
+            }
+
+            function endGame(result){
+                gameOver = true;
+                render();
+                if(result === 'draw') status.textContent = "It's a draw!";
+                else if(result === 'X') status.textContent = 'You win! \uD83C\uDF89';
+                else status.textContent = 'Shop assistant wins!';
+            }
+
+            function playerMove(i){
+                if(gameOver || board[i]) return;
+                board[i] = 'X';
+                render();
+
+                var win = checkWinner(board);
+                if(win){ endGame(win); return; }
+
+                status.textContent = 'Thinking\u2026';
+                setTimeout(function(){
+                    computerMove();
+                    var win2 = checkWinner(board);
+                    render();
+                    if(win2){ endGame(win2); }
+                    else{ status.textContent = 'Your move'; }
+                }, 350);
+            }
+
+            function newGame(){
+                board = Array(9).fill(null);
+                gameOver = false;
+                status.textContent = 'Your move';
+                render();
+            }
+
+            if(resetBtn){ resetBtn.addEventListener('click', newGame); }
+            newGame();
+        }
+        initTicTacToe();
+        
+
+    })();
+        
+    setTimeout(function(){
+        let msg = document.getElementById("message-container");
+        if(msg){
+            msg.style.transition="0.5s";
+            msg.style.opacity="0";
+            setTimeout(function(){
+                msg.remove();
+            },500);
+        }
+    },3000);
+
+    </script>
+
+</body>
+
+</html>

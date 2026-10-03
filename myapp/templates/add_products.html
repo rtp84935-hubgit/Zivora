@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product</title>
+
+<style>
+
+:root{
+    --bg-1: #0d0b1e;
+    --bg-2: #1a1233;
+    --bg-3: #241639;
+    --card-bg: rgba(36, 26, 62, 0.55);
+    --card-border: rgba(148, 132, 255, 0.18);
+    --card-border-hover: rgba(148, 132, 255, 0.4);
+    --field-bg: rgba(13, 11, 30, 0.55);
+    --text-main: #f2f0fb;
+    --text-muted: #a9a4c4;
+    --accent-1: #7c6cf5;
+    --accent-2: #a78bfa;
+    --green: #34d399;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:50px 20px;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(124, 108, 245, 0.18), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(236, 72, 153, 0.12), transparent 40%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+    color:var(--text-main);
+}
+
+.container{
+    width:440px;
+    max-width:100%;
+    background:var(--card-bg);
+    backdrop-filter:blur(14px);
+    border:1px solid var(--card-border);
+    border-radius:22px;
+    padding:36px 34px 32px;
+    box-shadow:0 20px 45px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent-2);
+    margin-bottom:10px;
+}
+.eyebrow::before,
+.eyebrow::after{
+    content:'';
+    width:18px; height:1px;
+    background:var(--accent-2);
+}
+
+h2{
+    text-align:center;
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:6px;
+    color:var(--text-main);
+}
+
+.subtitle{
+    text-align:center;
+    font-size:13px;
+    color:var(--text-muted);
+    margin-bottom:28px;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+    margin-bottom:6px;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid rgba(148, 132, 255, 0.16);
+    background:var(--field-bg);
+    border-radius:10px;
+    font-size:14.5px;
+    color:var(--text-main);
+    font-family:inherit;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:rgba(169,164,196,0.5);
+}
+
+input:focus,
+textarea:focus{
+    outline:none;
+    border-color:var(--accent-2);
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+/* file input gets its own quiet treatment so it doesn't
+   clash with the text fields' fill */
+input[type="file"]{
+    padding:10px 14px;
+    color:var(--text-muted);
+    cursor:pointer;
+}
+input[type="file"]::file-selector-button{
+    padding:8px 14px;
+    margin-right:12px;
+    border:none;
+    border-radius:8px;
+    background:rgba(124, 108, 245, 0.18);
+    color:var(--accent-2);
+    font-weight:600;
+    font-size:12.5px;
+    cursor:pointer;
+}
+input[type="file"]::file-selector-button:hover{
+    background:rgba(124, 108, 245, 0.3);
+}
+
+/* two-up row for price and stock, since they're short numeric fields */
+.field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.home-btn{
+    position:fixed;
+    top:24px;
+    left:24px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 16px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.14);
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(10px);
+    color:var(--text-main);
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none;
+    z-index:10;
+    transition:background 0.15s ease, border-color 0.15s ease;
+}
+
+.home-btn:hover{
+    background:rgba(124,108,240,0.18);
+    border-color:rgba(124,108,240,0.45);
+}
+
+.home-btn svg{
+    width:15px;
+    height:15px;
+    stroke:var(--text-main);
+    flex-shrink:0;
+}
+
+button{
+    width:100%;
+    margin-top:10px;
+    padding:13px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color:#ffffff;
+    font-weight:600;
+    font-size:14.5px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(124, 108, 245, 0.35);
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+
+button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 26px rgba(124, 108, 245, 0.45);
+}
+
+.back-link{
+    display:block;
+    text-align:center;
+    margin-top:18px;
+    font-size:13px;
+    color:var(--text-muted);
+    text-decoration:none;
+}
+.back-link:hover{ color:var(--accent-2); }
+
+@media (max-width:480px){
+    .field-row{ grid-template-columns:1fr; }
+    .home-btn{ top:16px; left:16px; padding:8px 13px; font-size:12px; }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<a href="/myapp/seller_home/" class="home-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home
+</a>
+
+<div class="container">
+
+    <div class="eyebrow">New Listing</div>
+    <h2>Add Product</h2>
+    <p class="subtitle">Fill in the details below to list a new product</p>
+
+    <form action="/myapp/add_product_post/" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div class="field">
+            <label>Product Name</label>
+            <input type="text" name="productname" placeholder="e.g. Wireless Mouse" required>
+        </div>
+
+        <div class="field-row">
+            <div class="field">
+                <label>Price (₹)</label>
+                <input type="number" name="productprice" placeholder="0" required>
+            </div>
+
+            <div class="field">
+                <label>Stock</label>
+                <input type="number" name="productstock" placeholder="0" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Quantity</label>
+            <input type="text" name="productquantity" placeholder="e.g. 1 unit / pack of 2" required>
+        </div>
+
+        <div class="field">
+            <label>Product Image</label>
+            <input type="file" name="productimage" required>
+        </div>
+
+        <div class="field">
+            <label>Description</label>
+            <textarea name="productdescription" placeholder="Describe the product..."></textarea>
+        </div>
+
+        <button type="submit">Add Product →</button>
+
+    </form>
+
+    <a class="back-link" href="/myapp/seller_home/">← Back to Seller Console</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Seller Details - Zivora</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'css/admin.css' %}">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+
+        <div class="logo">
+
+            <h2>Zivora</h2>
+
+            <span>ADMIN PANEL</span>
+
+        </div>
+
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="{% url 'admin_users' %}">
+
+                <i class="fa-solid fa-users"></i>
+
+                Users
+
+            </a>
+
+
+            <a href="{% url 'admin_sellers' %}"
+               class="active">
+
+                <i class="fa-solid fa-store"></i>
+
+                Sellers
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'admin_logout' %}"
+               class="logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+
+        <header class="topbar">
+
+            <div>
+
+                <a href="{% url 'admin_sellers' %}"
+                   class="back-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to Sellers
+
+                </a>
+
+
+                <h1>Seller Details</h1>
+
+            </div>
+
+        </header>
+
+
+        <!-- SELLER PROFILE -->
+
+        <section class="profile-card">
+
+
+            <div class="profile-header">
+
+
+                <div class="large-avatar seller-avatar">
+
+                    <i class="fa-solid fa-store"></i>
+
+                </div>
+
+
+                <div class="profile-name">
+
+                    <h2>{{ seller.name }}</h2>
+
+
+                    {% if seller.LOGIN.is_active %}
+
+                        <span class="status verified-status">
+
+                            Active
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="status banned-status">
+
+                            Banned
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <span>
+
+                        <i class="fa-solid fa-store"></i>
+
+                        Seller Name
+
+                    </span>
+
+                    <strong>
+                        {{ seller.name }}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        Email
+
+                    </span>
+
+                    <strong>
+                        {{ seller.email }}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        Phone
+
+                    </span>
+
+                    <strong>
+                        {{ seller.phone }}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                        Place
+
+                    </span>
+
+                    <strong>
+                        {{ seller.place }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- VERIFICATION -->
+
+            <div class="seller-verification">
+
+
+                <h3>Seller Verification</h3>
+
+
+                <p>
+                    Manage the seller's account access from here.
+                </p>
+
+
+                <div class="verification-actions">
+
+
+                    <a href="{% url 'admin_verify_seller' seller.id %}"
+                       class="verify-btn">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        Verify Seller
+
+                    </a>
+
+
+                    <a href="{% url 'admin_reject_seller' seller.id %}"
+                       class="reject-btn">
+
+                        <i class="fa-solid fa-circle-xmark"></i>
+
+                        Reject Seller
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- BAN -->
+
+            <div class="profile-actions">
+
+
+                {% if seller.LOGIN.is_active %}
+
+
+                    <a href="{% url 'admin_ban_seller' seller.id %}"
+                       class="danger-large">
+
+                        <i class="fa-solid fa-ban"></i>
+
+                        Ban Seller
+
+                    </a>
+
+
+                {% else %}
+
+
+                    <a href="{% url 'admin_unban_seller' seller.id %}"
+                       class="success-large">
+
+                        <i class="fa-solid fa-unlock"></i>
+
+                        Unban Seller
+
+                    </a>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+</body>
+
+</html>

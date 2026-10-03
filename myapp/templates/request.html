@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Used Product Requests</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    min-height:100vh;
+    padding:40px 0;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    color:#fff;
+    margin-bottom:30px;
+    font-size:34px;
+}
+
+.table-box{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#4f46e5;
+    color:#fff;
+    padding:18px;
+    font-size:16px;
+    text-transform:uppercase;
+}
+
+td{
+    padding:18px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#f7f9fc;
+}
+
+.status{
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+    display:inline-block;
+    text-transform:capitalize;
+}
+
+.pending{
+    background:#fff4d6;
+    color:#d97706;
+}
+
+.accepted{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.rejected{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.btn{
+    text-decoration:none;
+    padding:9px 18px;
+    border-radius:8px;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    transition:.3s;
+    display:inline-block;
+    margin:2px;
+}
+
+.accept{
+    background:#16a34a;
+}
+
+.accept:hover{
+    background:#15803d;
+}
+
+.reject{
+    background:#dc2626;
+}
+
+.reject:hover{
+    background:#b91c1c;
+}
+
+.done{
+    color:#555;
+    font-weight:bold;
+}
+
+.no-data{
+    padding:30px;
+    font-size:18px;
+    color:#666;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1><i class="fa-solid fa-handshake"></i> Used Product Requests</h1>
+
+<div class="table-box">
+
+<table>
+
+<tr>
+    <th>#</th>
+    <th>Customer</th>
+    <th>Product</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+
+{% for i in data %}
+
+<tr>
+
+<td>{{ forloop.counter }}</td>
+
+<td>{{ i.USER.name }}</td>
+
+<td>{{ i.UsedProduct.product_name }}</td>
+
+<td>{{ i.DateTime }}</td>
+
+<td>
+    <span class="status {{ i.status }}">
+        {{ i.status }}
+    </span>
+</td>
+
+<td>
+
+{% if i.status == "requested" %}
+
+<a href="/myapp/accept_request/{{ i.id }}" class="btn accept">
+    <i class="fa-solid fa-check"></i> Accept
+</a>
+
+<a href="/myapp/reject_request/{{ i.id }}" class="btn reject">
+    <i class="fa-solid fa-xmark"></i> Reject
+</a>
+
+{% elif i.status == "Request Accepted" %}
+
+<span class="done" style="color:green;">
+    <i class="fa-solid fa-circle-check"></i> Accepted
+</span>
+
+{% else %}
+
+<span class="done" style="color:red;">
+    <i class="fa-solid fa-circle-xmark"></i> Rejected
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+    <td colspan="6" class="no-data">
+        No requests found.
+    </td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+</body>
+</html>

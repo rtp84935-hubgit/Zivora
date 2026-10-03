@@ -1,0 +1,56 @@
+{% extends 'user_home.html' %}
+{% block body %}
+
+<h1 style="text-align:center; color:#e0e0ff; background:#0f0f1a; margin:0; padding:30px 0 10px 0; font-weight:600; letter-spacing:1px; font-family:'Segoe UI', Arial, Helvetica, sans-serif;">
+    Return Products
+</h1>
+
+<div style="background:#0f0f1a; min-height:100vh; padding:20px 30px 60px 30px; display:flex; flex-direction:column; align-items:center; gap:20px; font-family:'Segoe UI', Arial, Helvetica, sans-serif;">
+
+{% if return %}
+
+    {% for i in return %}
+
+    <div style="width:100%; max-width:600px; background:#1a1a2e; border:1px solid #2a2a40; border-radius:14px; padding:24px; box-shadow:0px 8px 20px rgba(0,0,0,0.4);">
+
+        <div style="color:#e0e0ff; font-size:18px; font-weight:700; margin-bottom:12px;">
+            Product Name : {{ i.ORDER_DETAILS.PRODUCT.ProductName }}
+        </div>
+
+        <p style="color:#c0c0d8; font-size:14px; margin:0 0 8px 0;">
+            <strong style="color:#9a9ab8;">Order ID :</strong> {{ i.ORDER_DETAILS.ORDER.id }}
+        </p>
+
+        <p style="color:#c0c0d8; font-size:14px; margin:0 0 16px 0;">
+            <strong style="color:#9a9ab8;">Quantity :</strong> {{ i.ORDER_DETAILS.quantity }}
+        </p>
+
+        <div style="background:#13131f; border:1px solid #2a2a40; border-radius:10px; padding:16px;">
+
+            <b style="color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Return Reason</b>
+            <br><br>
+            <span style="color:#e0e0ff; font-size:14px;">{{ i.reason }}</span>
+            <br><br>
+
+            <b style="color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px;">Status :</b>
+            <span style="display:inline-block; color:#ffd166; background:rgba(255,209,102,0.1); border:1px solid #ffd166; padding:4px 14px; border-radius:15px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-left:6px;">
+                {{ i.status }}
+            </span>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <div style="text-align:center; color:#7a7a9a; padding:80px 20px;">
+        No Return Found
+    </div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

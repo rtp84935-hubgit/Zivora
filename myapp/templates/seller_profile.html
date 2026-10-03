@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile</title>
+
+<style>
+    :root {
+        --bg-1: #0d0b1e;
+        --bg-2: #1a1233;
+        --bg-3: #241639;
+        --accent-1: #7c6cf5;
+        --accent-2: #a78bfa;
+        --text-main: #f2f0fb;
+        --text-muted: #a9a4c4;
+        --card-border: rgba(148, 132, 255, 0.18);
+        --card-bg: rgba(36, 26, 62, 0.55);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+        background:
+            radial-gradient(circle at 15% 10%, rgba(124, 108, 245, 0.18), transparent 45%),
+            radial-gradient(circle at 85% 90%, rgba(236, 72, 153, 0.12), transparent 40%),
+            linear-gradient(160deg, var(--bg-1), var(--bg-2) 55%, var(--bg-3));
+        color: var(--text-main);
+    }
+
+    .home-btn{
+        position:fixed;
+        top:24px;
+        left:24px;
+        display:flex;
+        align-items:center;
+        gap:8px;
+        padding:9px 16px;
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,0.14);
+        background:rgba(36, 26, 62, 0.6);
+        backdrop-filter:blur(10px);
+        color:var(--text-main);
+        font-size:13px;
+        font-weight:600;
+        text-decoration:none;
+        z-index:20;
+        transition:background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .home-btn:hover{
+        background:rgba(124,108,240,0.18);
+        border-color:rgba(124,108,240,0.45);
+    }
+
+    .home-btn svg{
+        width:15px;
+        height:15px;
+        stroke:var(--text-main);
+        flex-shrink:0;
+    }
+
+    .profile-card {
+        width: 400px;
+        max-width: 100%;
+        background: var(--card-bg);
+        backdrop-filter: blur(14px);
+        border: 1px solid var(--card-border);
+        border-radius: 22px;
+        padding: 36px 34px 32px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .avatar-ring {
+        width: 74px;
+        height: 74px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(124, 108, 245, 0.14);
+        border: 1px solid rgba(148, 132, 255, 0.35);
+    }
+
+    .avatar-ring svg {
+        width: 32px;
+        height: 32px;
+        stroke: var(--accent-2);
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        margin: 0 0 4px;
+        color: var(--text-main);
+    }
+
+    .subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin: 0 0 28px;
+    }
+
+    .profile-item {
+        text-align: left;
+        margin: 0 0 18px;
+    }
+
+    label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid rgba(148, 132, 255, 0.16);
+        background: rgba(13, 11, 30, 0.55);
+        border-radius: 10px;
+        font-size: 14.5px;
+        color: var(--text-main);
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--accent-2);
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        margin-top: 26px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 13px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14.5px;
+        color: #ffffff;
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        box-shadow: 0 8px 20px rgba(124, 108, 245, 0.35);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 26px rgba(124, 108, 245, 0.45);
+    }
+
+    .link-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 4px;
+    }
+
+    .text-link {
+        font-size: 13px;
+        color: var(--text-muted);
+        text-decoration: none;
+    }
+
+    .text-link:hover {
+        color: var(--accent-2);
+    }
+
+    @media (max-width:480px){
+        .home-btn{ top:16px; left:16px; padding:8px 13px; font-size:12px; }
+    }
+</style>
+
+</head>
+
+<body>
+
+<a href="/myapp/seller_home/" class="home-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    Home
+</a>
+
+<form action="" method="post">
+
+{% csrf_token %}
+
+<div class="profile-card">
+
+    <!-- <div class="avatar-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+    </div> -->
+
+    <h1>Seller Profile</h1>
+    <p class="subtitle">Your account details</p>
+
+    <div class="profile-item">
+        <label>Name</label>
+        <input type="text" value="{{data.name}}" readonly>
+    </div>
+
+    <div class="profile-item">
+        <label>Email</label>
+        <input type="text" value="{{data.email}}" readonly>
+    </div>
+
+    <div class="profile-item">
+        <label>Phone</label>
+        <input type="text" value="{{data.phone}}" readonly>
+    </div>
+
+    <div class="profile-item">
+        <label>Place</label>
+        <input type="text" value="{{data.place}}" readonly>
+    </div>
+
+    <div class="actions">
+        <a class="btn" href="/myapp/seller_edit_profile/{{data.id}}/">
+            Update Profile →
+        </a>
+
+        <div class="link-row">
+            <a class="text-link" href="/myapp/seller_home/">← Back to home</a>
+            <a class="text-link" href="/myapp/change_password/">Change password</a>
+        </div>
+    </div>
+
+</div>
+
+</form>
+
+</body>
+</html>

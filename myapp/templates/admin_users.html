@@ -1,0 +1,255 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Users - Zivora Admin</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'user/css/admin.css' %}">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Zivora</h2>
+            <span>ADMIN PANEL</span>
+        </div>
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_users' %}" class="active">
+                <i class="fa-solid fa-users"></i>
+                Users
+            </a>
+
+            <a href="{% url 'admin_sellers' %}">
+                <i class="fa-solid fa-store"></i>
+                Sellers
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'admin_logout' %}" class="logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+                <h1>Users</h1>
+                <p>Manage registered Zivora customers</p>
+            </div>
+
+            <div class="admin-profile">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Administrator</span>
+            </div>
+
+        </header>
+
+
+        <!-- USER TABLE -->
+
+        <section class="table-section">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Customer Accounts</h2>
+                    <p>{{ users|length }} registered users</p>
+                </div>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Place</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <td>
+
+                            <div class="user-cell">
+
+                                {% if user.image %}
+                                    <img src="{{ user.image.url }}" alt="User">
+                                {% else %}
+                                    <div class="default-avatar">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                {% endif %}
+
+                                <div>
+                                    <strong>{{ user.name }}</strong>
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+
+                        <td>
+                            {{ user.phone }}
+                        </td>
+
+
+                        <td>
+                            {{ user.place }}
+                        </td>
+
+
+                        <td>
+
+                            {% if user.LOGIN.is_active %}
+
+                                <span class="status active-status">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status banned-status">
+                                    Banned
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="table-actions">
+
+                                <a href="{% url 'admin_user_view' user.id %}"
+                                   class="view-btn">
+
+                                    <i class="fa-solid fa-eye"></i>
+                                    View
+
+                                </a>
+
+
+                                {% if user.LOGIN.is_active %}
+
+                                <a href="{% url 'admin_ban_user' user.id %}"
+                                   class="danger-btn">
+
+                                    <i class="fa-solid fa-ban"></i>
+                                    Ban
+
+                                </a>
+
+                                {% else %}
+
+                                <a href="{% url 'admin_unban_user' user.id %}"
+                                   class="success-btn">
+
+                                    <i class="fa-solid fa-unlock"></i>
+                                    Unban
+
+                                </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="empty">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <p>No users found.</p>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

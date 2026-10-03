@@ -1,0 +1,138 @@
+{% extends 'user_home.html' %}
+{% block body %}
+
+<div style="display:flex; justify-content:space-between; align-items:center; background:#1a1a2e; padding:18px 30px; border-bottom:1px solid #2a2a40;">
+
+    <div style="display:flex; align-items:center; gap:10px; font-size:22px; font-weight:700; color:#e0e0ff;">
+        <i class="fa fa-box" style="color:#6c63ff;"></i>
+        My Orders
+    </div>
+
+    <a href="/myapp/home/" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:#9a9ab8; font-weight:600; padding:8px 18px; border:1px solid #2a2a40; border-radius:20px; transition:0.3s;" onmouseover="this.style.color='#e0e0ff'; this.style.borderColor='#6c63ff'" onmouseout="this.style.color='#9a9ab8'; this.style.borderColor='#2a2a40'">
+        <i class="fa fa-home"></i>
+        Home
+    </a>
+
+</div>
+
+<h1 style="text-align:center; color:#e0e0ff; background:#0f0f1a; margin:0; padding:30px 0 10px 0; font-weight:600; letter-spacing:1px;">
+    Order Details
+</h1>
+
+<div style="background:#0f0f1a; min-height:100vh; padding:20px 30px 60px 30px; font-family:'Segoe UI', Arial, Helvetica, sans-serif;">
+
+    <div style="display:flex; justify-content:center; gap:14px; margin-bottom:30px;">
+
+        <a href="/myapp/view_return/" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:#ffffff; background:#6c63ff; padding:10px 22px; border-radius:20px; font-size:14px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='#5a52e0'" onmouseout="this.style.background='#6c63ff'">
+            📦 View Return Details
+        </a>
+
+       
+
+    </div>
+
+    <div style="display:flex; flex-direction:column; align-items:center; gap:20px;">
+
+    {% if details %}
+     <a href="/myapp/delete_all_return/" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:#ff6b6b; background:transparent; border:1px solid #ff6b6b; padding:10px 22px; border-radius:20px; font-size:14px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='rgba(255,107,107,0.1)'" onmouseout="this.style.background='transparent'">
+            Delete All
+        </a>
+
+        {% for i in details %}
+
+        <div style="display:flex; width:100%; max-width:800px; background:#1a1a2e; border:1px solid #2a2a40; border-radius:14px; padding:20px; box-shadow:0px 8px 20px rgba(0,0,0,0.4); gap:20px;">
+
+            <div style="flex-shrink:0;">
+                {% if i.PRODUCT.ProductImage %}
+                <img src="{{ i.PRODUCT.ProductImage.url }}" style="width:120px; height:120px; object-fit:cover; border-radius:10px; border:1px solid #2a2a40;">
+                {% endif %}
+            </div>
+
+            <div style="flex:1; text-align:left;">
+
+                <h2 style="color:#e0e0ff; margin:0 0 8px 0; font-size:19px;">
+                    {{ i.PRODUCT.ProductName }}
+                </h2>
+
+                <p style="color:#9a9ab8; font-size:14px; margin:0 0 10px 0;">
+                    {{ i.PRODUCT.ProductDescription }}
+                </p>
+
+                <p style="color:#c0c0d8; font-size:14px; margin:0 0 8px 0;">
+                    <b style="color:#e0e0ff;">₹ Total Price : 
+                        {% for j in of %}
+                        {% if i.PRODUCT.id == j.PRODUCT.id %}
+                        {{j.offer}}
+                        {%endif%}
+                        {%endfor%}
+                        x {{ i.quantity }} =</b>
+                    <span style="color:#6c63ff; font-weight:700;">{{ i.ORDER.amount }}</span>
+                </p>
+
+                <span style="display:inline-block; color:#e0e0ff; background:#13131f; border:1px solid #2a2a40; padding:4px 12px; border-radius:15px; font-size:13px; margin-bottom:8px;">
+                    Quantity : {{ i.quantity }}
+                </span>
+
+                <p style="color:#7a7a9a; font-size:13px; margin:8px 0;">
+                    Seller : {{ i.PRODUCT.SELLER.name }}
+                </p>
+
+                <p style="color:#7a7a9a; font-size:13px; margin:0 0 10px 0;">
+                    Order Date : {{ i.ORDER.orderDate }}
+                </p>
+
+                <span style="display:inline-block; color:#7ee787; background:rgba(126,231,135,0.1); border:1px solid #7ee787; padding:4px 14px; border-radius:15px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px;">
+                    {{ i.ORDER.status }}
+                </span>
+
+                <br><br>
+
+                <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:flex-start;">
+
+                    {% if i.ORDER.status == 'paid' %}
+                    <a id="returnbuttton" href="/myapp/Return_Order/{{ i.id }}" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:#ffd166; background:transparent; border:1px solid #ffd166; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='rgba(255,209,102,0.1)'" onmouseout="this.style.background='transparent'">
+                        <i class="fa fa-rotate-left"></i>
+                        Return Product
+                    </a>
+                    {% endif %}
+
+                    {% if i.fs == "0" %}
+                    <a href="/myapp/add_feedback/{{ i.id }}" style="display:flex; align-items:center; gap:6px; text-decoration:none; color:#6c63ff; background:transparent; border:1px solid #6c63ff; padding:8px 16px; border-radius:20px; font-size:13px; font-weight:600; transition:0.3s;" onmouseover="this.style.background='rgba(108,99,255,0.1)'" onmouseout="this.style.background='transparent'">
+                        <i class="fa fa-star"></i>
+                        Add Feedback
+                    </a>
+                    {% else %}
+                    <div>
+                        <a href="" style="display:inline-flex; flex-direction:column; gap:2px; text-decoration:none; color:#ffd166; background:#13131f; border:1px solid #2a2a40; padding:8px 16px; border-radius:10px; font-size:13px; font-weight:600;">
+                            <span><i class="fa fa-star"></i> {{ i.avg_rating|floatformat:1 }}/5.0</span>
+                            <span style="color:#9a9ab8; font-weight:500; font-size:11px;">{{ i.count }} Users have reviewed this product</span>
+                        </a>
+                        <p style="color:#c0c0d8; font-size:13px; margin:10px 0 0 0;">
+                            <b style="color:#e0e0ff;">Your FeedBack:</b> {{ i.fs.feedback }}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div style="text-align:center; color:#7a7a9a; padding:80px 20px;">
+            <i class="fa fa-cart-shopping" style="font-size:50px; color:#2a2a40;"></i>
+            <br><br>
+            No Orders Found
+        </div>
+
+    {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

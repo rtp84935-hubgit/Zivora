@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sellers - Zivora Admin</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="{% static 'user/css/admin.css' %}">
+
+</head>
+
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Zivora</h2>
+            <span>ADMIN PANEL</span>
+        </div>
+
+
+        <nav>
+
+            <a href="{% url 'admin_dashboard' %}">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_users' %}" class="active">
+                <i class="fa-solid fa-users"></i>
+                Users
+            </a>
+
+            <a href="{% url 'admin_sellers' %}">
+                <i class="fa-solid fa-store"></i>
+                Sellers
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'admin_logout' %}" class="logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+
+                <a href="{% url 'admin_users' %}"
+                   class="back-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Back to Users
+
+                </a>
+
+                <h1>User Details</h1>
+
+            </div>
+
+        </header>
+
+
+        <!-- USER PROFILE -->
+
+        <section class="profile-card">
+
+            <div class="profile-header">
+
+                {% if user.image %}
+
+                    <img src="{{ user.image.url }}"
+                         class="large-avatar"
+                         alt="User">
+
+                {% else %}
+
+                    <div class="large-avatar default-large-avatar">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="profile-name">
+
+                    <h2>{{ user.name }}</h2>
+
+                    {% if user.LOGIN.is_active %}
+
+                        <span class="status active-status">
+                            Active
+                        </span>
+
+                    {% else %}
+
+                        <span class="status banned-status">
+                            Banned
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="details-grid">
+
+
+                <div class="detail-item">
+
+                    <span>
+                        <i class="fa-solid fa-envelope"></i>
+                        Email
+                    </span>
+
+                    <strong>
+                        {{ user.email }}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        <i class="fa-solid fa-phone"></i>
+                        Phone
+                    </span>
+
+                    <strong>
+                        {{ user.phone }}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        <i class="fa-solid fa-location-dot"></i>
+                        Place
+                    </span>
+
+                    <strong>
+                        {{ user.place }}
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span>
+                        <i class="fa-solid fa-user-shield"></i>
+                        Account
+                    </span>
+
+                    <strong>
+                        Customer
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTION -->
+
+            <div class="profile-actions">
+
+                {% if user.LOGIN.is_active %}
+
+                    <a href="{% url 'admin_ban_user' user.id %}"
+                       class="danger-large">
+
+                        <i class="fa-solid fa-ban"></i>
+                        Ban User
+
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'admin_unban_user' user.id %}"
+                       class="success-large">
+
+                        <i class="fa-solid fa-unlock"></i>
+                        Unban User
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

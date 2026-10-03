@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Used Product</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(120deg,#667eea,#764ba2);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.container{
+    width:100%;
+    max-width:600px;
+}
+
+.card{
+    background:white;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
+
+h2{
+    text-align:center;
+    color:#764ba2;
+    margin-bottom:30px;
+}
+
+.input-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    color:#555;
+    font-weight:bold;
+}
+
+input[type=text],
+input[type=number],
+textarea,
+input[type=file]{
+
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#667eea;
+}
+
+textarea{
+    resize:none;
+    height:120px;
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#667eea;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#764ba2;
+}
+
+.back{
+    display:inline-block;
+    margin-top:20px;
+    text-decoration:none;
+    color:#667eea;
+    font-weight:bold;
+}
+
+.back:hover{
+    color:#764ba2;
+}
+
+.icon{
+    text-align:center;
+    font-size:60px;
+    color:#667eea;
+    margin-bottom:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<div class="icon">
+<i class="fa-solid fa-box-open"></i>
+</div>
+
+<h2>Add Used Product</h2>
+
+<form action="/myapp/add_myproducts_post/" method="post" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <div class="input-group">
+        <label>Product Name</label>
+        <input type="text" name="product_name" placeholder="Enter product name" required>
+    </div>
+
+    <div class="input-group">
+        <label>Product Image</label>
+        <input type="file" name="product_image" required>
+    </div>
+
+    <div class="input-group">
+        <label>Product Price</label>
+        <input type="number" name="product_price" placeholder="Enter price" required>
+    </div>
+
+    <div class="input-group">
+        <label>Product Description</label>
+        <textarea name="product_description" placeholder="Enter product description" required></textarea>
+    </div>
+
+    <button type="submit" class="btn">
+        <i class="fa fa-plus-circle"></i> Add Product
+    </button>
+
+</form>
+
+<div style="text-align:center;">
+    <a href="/myapp/home/" class="back">
+        <i class="fa fa-arrow-left"></i> Back
+    </a>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

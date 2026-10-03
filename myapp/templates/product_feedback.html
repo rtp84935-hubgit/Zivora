@@ -1,0 +1,77 @@
+{% extends 'user_home.html' %}
+{% block body %}
+
+<div style="min-height:100vh; display:flex; justify-content:center; align-items:center; background:#0f0f1a; font-family:Arial, Helvetica, sans-serif; padding:40px 20px; box-sizing:border-box;">
+
+<div style="width:400px; background:#1a1a2e; padding:30px 25px; border-radius:16px; box-shadow:0px 10px 30px rgba(0,0,0,0.6); border:1px solid #2a2a40;">
+
+    <h1 style="text-align:center; color:#e0e0ff; margin:0 0 20px 0; font-size:22px; font-weight:600; letter-spacing:1px;">
+        Add Review
+    </h1>
+
+    <div style="background:#13131f; padding:14px; border-radius:10px; border:1px solid #2a2a40; margin-bottom:22px; text-align:center;">
+        <img src="{{ data.ProductImage.url }}" style="width:90px; height:90px; object-fit:cover; border-radius:10px; border:1px solid #2a2a40; margin-bottom:10px;">
+        <h3 style="color:#e0e0ff; margin:8px 0 0 0; font-size:16px;">
+            Product Name : {{ data.ProductName }}
+        </h3>
+    </div>
+
+    <form method="post" action="/myapp/add_feedback_product_post/">
+
+        {% csrf_token %}
+
+        <div id="stars" style="text-align:center; margin-bottom:20px;">
+            <span class="star" data-value="1" style="font-size:36px; color:#3a3a55; cursor:pointer; transition:0.2s;">★</span>
+            <span class="star" data-value="2" style="font-size:36px; color:#3a3a55; cursor:pointer; transition:0.2s;">★</span>
+            <span class="star" data-value="3" style="font-size:36px; color:#3a3a55; cursor:pointer; transition:0.2s;">★</span>
+            <span class="star" data-value="4" style="font-size:36px; color:#3a3a55; cursor:pointer; transition:0.2s;">★</span>
+            <span class="star" data-value="5" style="font-size:36px; color:#3a3a55; cursor:pointer; transition:0.2s;">★</span>
+        </div>
+
+        <input type="hidden" name="star" id="rating" value="">
+
+        <label style="display:block; font-weight:bold; color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+            Your Feedback
+        </label>
+
+        <textarea name="feedback" rows="4" placeholder="Write your review..." required style="width:100%; padding:12px; border:1px solid #2a2a40; background:#13131f; color:#e0e0ff; border-radius:8px; font-size:14px; font-family:Arial, Helvetica, sans-serif; box-sizing:border-box; resize:vertical; margin-bottom:20px;"></textarea>
+
+        <input type="hidden" name="pid" value="{{ data.id }}">
+
+        <button type="submit" style="width:100%; padding:12px; background:#6c63ff; color:white; border:none; border-radius:25px; cursor:pointer; font-weight:600; font-size:14px; letter-spacing:0.5px; transition:0.3s;" onmouseover="this.style.background='#5a52e0'" onmouseout="this.style.background='#6c63ff'">
+            Submit Review
+        </button>
+
+    </form>
+
+</div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    let stars = document.querySelectorAll(".star");
+    let rating = document.getElementById("rating");
+
+    stars.forEach(function (star) {
+        star.addEventListener("click", function () {
+
+            let value = this.dataset.value;
+            rating.value = value;
+
+            stars.forEach(function (item) {
+                if (item.dataset.value <= value) {
+                    item.style.color = "gold";
+                } else {
+                    item.style.color = "#3a3a55";
+                }
+            });
+
+        });
+    });
+
+});
+</script>
+
+{% endblock %}

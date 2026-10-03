@@ -1,0 +1,44 @@
+{% extends 'user_home.html' %}
+{% block body %}
+
+<div style="min-height:100vh; display:flex; justify-content:center; align-items:center; background:#0f0f1a; font-family:Arial, Helvetica, sans-serif; padding:40px 20px; box-sizing:border-box;">
+
+<div style="width:380px; background:#1a1a2e; padding:30px; border-radius:20px; box-shadow:0px 10px 30px rgba(0,0,0,0.6); border:1px solid #2a2a40;">
+
+    <h1 style="text-align:center; color:#e0e0ff; margin:0 0 25px 0; font-weight:600; letter-spacing:1px;">
+        UPDATE PROFILE
+    </h1>
+
+    <form action="/myapp/edit_profile_post/" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <div align="center" style="margin-bottom:20px;">
+            <img src="{{ data.image.url }}" width="100px" height="100px" style="border-radius:50%; object-fit:cover; border:3px solid #6c63ff; box-shadow:0 0 15px rgba(108,99,255,0.5);"><br><br>
+            <span style="color:#9a9ab8; font-size:13px;">click below to change photo</span><br><br>
+            <input type="file" name="image" style="width:100%; padding:8px; border:1px solid #2a2a40; background:#13131f; color:#e0e0ff; border-radius:8px; box-sizing:border-box; font-size:13px;">
+        </div>
+
+        <label style="font-weight:bold; color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; display:block;">NAME:</label>
+        <input type="text" value="{{ data.name }}" name="name" style="width:100%; padding:10px; margin:8px 0 15px; border-radius:8px; border:1px solid #2a2a40; background:#13131f; color:#e0e0ff; font-size:15px; box-sizing:border-box;">
+
+        <label style="font-weight:bold; color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; display:block;">EMAIL:</label>
+        <input type="text" value="{{ data.email }}" name="email" style="width:100%; padding:10px; margin:8px 0 15px; border-radius:8px; border:1px solid #2a2a40; background:#13131f; color:#e0e0ff; font-size:15px; box-sizing:border-box;">
+
+        <label style="font-weight:bold; color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; display:block;">PHONE:</label>
+        <input type="text" value="{{ data.phone }}" name="phone" style="width:100%; padding:10px; margin:8px 0 15px; border-radius:8px; border:1px solid #2a2a40; background:#13131f; color:#e0e0ff; font-size:15px; box-sizing:border-box;">
+
+        <label style="font-weight:bold; color:#9a9ab8; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; display:block;">PLACE:</label>
+        <input type="text" value="{{ data.place }}" name="place" style="width:100%; padding:10px; margin:8px 0 15px; border-radius:8px; border:1px solid #2a2a40; background:#13131f; color:#e0e0ff; font-size:15px; box-sizing:border-box;">
+
+        <button type="submit" style="width:100%; padding:12px; border:none; border-radius:25px; background:#6c63ff; color:white; font-size:15px; font-weight:600; letter-spacing:0.5px; cursor:pointer; margin-top:10px; transition:0.3s;" onmouseover="this.style.background='#5a52e0'" onmouseout="this.style.background='#6c63ff'">
+            UPDATE
+        </button>
+
+    </form>
+
+</div>
+
+</div>
+
+{% endblock %}
